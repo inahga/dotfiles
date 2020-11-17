@@ -1,0 +1,50 @@
+# .shrc
+# cross platform .bashrc
+EDITOR=/usr/bin/kak
+
+# User specific aliases and functions
+alias ll='ls -Gla'
+alias l='ls -Gl'
+alias dir='ls'
+alias fzf='fzf --reverse'
+alias k='kubectl'
+alias d='docker'
+alias gs='git status'
+alias gp='git pull'
+alias gpu='git push'
+alias gc='git checkout'
+alias tf='terraform'
+alias c='code .'
+alias p='podman'
+alias what='echo $?'
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+cl() {
+	cd "$1" || exit
+	ls -Gl
+}
+
+gd() {
+	go doc "$1" | less
+}
+
+if [ "$(uname -s)" == "Linux" ]; then
+	alias open='xdg-open'
+fi
+
+gettex() {
+	curl -k "https://gitlab.inahga.org/-/snippets/21/raw" >"$1"
+}
+
+if [ -e ~/.git-prompt ]; then
+	source ~/.git-prompt
+fi
+
+alias kakoune='command kak'
+kak() {
+	if [ -n "$(command kak -l)" ]; then
+		command kak -c "$(command kak -l)" "$@"
+	else
+		command kak "$@"
+	fi
+}

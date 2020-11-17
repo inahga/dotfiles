@@ -1,0 +1,116 @@
+source "%val{config}/plugins/shellcheck.kak/shellcheck.kak"
+
+add-highlighter global/ number-lines
+add-highlighter global/ wrap
+
+colorscheme zenburn
+face global Default default,default
+face global LineNumbers default,default+fgd@LineNumbers
+face global BufferPadding default,default
+
+eval %sh{kak-lsp --kakoune -s $kak_session}
+lsp-enable
+
+set global autoreload true
+set global tabstop 4
+set global indentwidth 0
+
+hook global WinSetOption filetype=(go|c|cpp|java) %{
+    set-option window lsp_auto_highlight_references true
+    set-option window lsp_hover_anchor false
+    lsp-auto-hover-enable
+    echo -debug "Enabling LSP for filetype %opt{filetype}"
+}
+
+set global lsp_diagnostic_line_error_sign '║'
+set global lsp_diagnostic_line_warning_sign '┊'
+
+hook global KakEnd .* lsp-exit
+
+define-command -override -hidden lsp-show-error -params 1 -docstring "Render error (suppress useless gopls errors)" %{
+    evaluate-commands %sh{
+        if [ "$1" = "go language server error: 'no identifier found'" ]; then
+            exit 0
+        fi
+        echo 'echo -debug "kak-lsp:" %arg{1}'
+        echo 'info %arg{1}'
+    }
+}
+
+hook global WinSetOption filetype=go %{
+    hook buffer BufWritePre .* %{
+        go-format -use-goimports
+    }
+}
+
+hook global WinSetOption filetype=terraform %{
+    set window formatcmd 'terraform fmt -'
+    hook buffer BufWritePre .* %{format}
+}
+
+hook global WinSetOption filetype=sh %{
+    set window formatcmd 'shfmt'
+    hook buffer BufWritePre .* %{format}
+}
+
+hook global WinSetOption filetype=(c|cpp) %{
+    set window formatcmd 'clang-format --fallback-style=WebKit'
+    hook buffer BufWritePre .* %{format}
+}
+
+hook global WinSetOption filetype=yaml %{
+    map window insert <s-tab> '<a-;><lt>'
+    map window insert <tab> '<a-;><gt>'
+    set window indentwidth 2
+    set window formatcmd 'yq read -'
+}
+
+hook global WinSetOption filetype=java %{
+	map -docstring "println" window user P 'iSystem.out.println("");<esc>'
+	map -docstring "printf" window user F 'iSystem.out.printf("");<esc>'
+
+	set window formatcmd 'java -jar /home/aghani/.local/lib/google-java-format-1.9-all-deps.jar -a -'
+	hook buffer BufWritePre .* %{format}
+}
+
+hook global WinSetOption filetype=latex %{
+	hook buffer BufWritePost .* %{
+		nop %sh{
+			PDF="$(basename "$kak_buffile" .tex).pdf"
+			if [ -z "$(ps | grep "evince $PDF")" ]; then
+				evince "$PDF" > /dev/null 2>&1 < /dev/null &
+			fi
+			cd "$(dirname "$kak_buffile")"
+			latexmk -pdf &
+		}
+	}
+}
+
+map -docstring "edit kakrc" global user e ':e ~/.config/kak/kakrc<ret>'
+map -docstring "edit bashrc" global user b ':e ~/.bashrc<ret>'
+map -docstring "wl-paste" global user p '!wl-paste -n<ret>'
+
+define-command user-keys-accents -docstring "Register user mode key mappings that provide accented letters" %{
+    map -docstring "u with umlaut" window user U 'iü<esc>'
+}
+
+define-command user-keys-rel-algebra -docstring "Register user mode key mappings that provide relational algebra symbols" %{
+    map -docstring "pi" window user P 'iΠ<esc>'
+    map -docstring "sigma" window user S 'iσ<esc>'
+    map -docstring "natural join" window user J 'i⋈<esc>'
+    map -docstring "left semi join" window user L 'i⋉<esc>'
+    map -docstring "right semi join" window user R 'i⋊<esc>'
+    map -docstring "left outer join" window user O 'i⟕<esc>'
+    map -docstring "right outer join" window user Y 'i⟖<esc>'
+    map -docstring "full outer join" window user F 'i⟗<esc>'
+    map -docstring "divide" window user D 'i÷<esc>'
+    map -docstring "intersection" window user I 'i⋂<esc>'
+    map -docstring "union" window user U 'i⋃<esc>'
+}
+
+hook global RegisterModified '"' %{ nop %sh{
+    printf %s "$kak_main_reg_dquote" | wl-copy > /dev/null 2>&1 &
+}}
+
+map global normal '#' ':comment-line<ret>'
+
