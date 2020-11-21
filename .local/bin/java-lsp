@@ -1,7 +1,7 @@
 #!/bin/sh
 # must use jdk-11
 WORKSPACE_DIR=~/Java
-JDT_DIR=~/.vscode/extensions/redhat.java-0.69.0/server
+JDT_DIR=~/.vscode/extensions/redhat.java-0.70.0/server
 
 cd ${JDT_DIR} || true
 LAUNCHER=$(ls ${JDT_DIR}/plugins/org.eclipse.equinox.launcher_*)
