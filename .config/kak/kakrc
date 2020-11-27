@@ -76,7 +76,7 @@ hook global WinSetOption filetype=java %{
 hook global WinSetOption filetype=latex %{
 	hook buffer BufWritePost .* %{
 		nop %sh{
-			PDF="$(basename "$kak_buffile" .tex).pdf"
+			PDF="$(dirname "$kak_buffile")/$(basename "$kak_buffile" .tex).pdf"
 			if [ -z "$(ps | grep "evince $PDF")" ]; then
 				evince "$PDF" > /dev/null 2>&1 < /dev/null &
 			fi
