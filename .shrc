@@ -63,3 +63,7 @@ kak() {
 		command kak "$@"
 	fi
 }
+
+alacritty-x11() {
+	WINIT_UNIX_BACKEND=x11 alacritty "$@"
+}
