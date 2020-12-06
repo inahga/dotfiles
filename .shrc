@@ -27,6 +27,7 @@ alias c='code .'
 alias p='podman'
 alias what='echo $?'
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias protontricks-flat='flatpak run --command=protontricks com.valvesoftware.Steam'
 
 cl() {
 	cd "$1" || exit

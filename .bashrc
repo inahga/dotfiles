@@ -7,7 +7,7 @@ export LS_COLORS='rs=0:di=33:ln=38;5;51:mh=00:pi=40;38;5;11:so=38;5;13:do=38;5;5
 export PROMPT_DIRTRIM=3
 export PS1="\n\e[36m[\!]\e[0m \
 \$(if [ \$? == 0 ]; then echo \[\e[32m\]:\)\[\e[0m\]; else echo \[\e[31m\]:\(\[\e[0m\]; fi) \
-\w\$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \$ "
+\w\$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi)\n\$ "
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
