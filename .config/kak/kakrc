@@ -55,14 +55,14 @@ hook global WinSetOption filetype=sh %{
 
 hook global WinSetOption filetype=(c|cpp) %{
     set window formatcmd 'clang-format --fallback-style=WebKit'
-    hook buffer BufWritePre .* %{format}
+    # hook buffer BufWritePre .* %{format}
 }
 
 hook global WinSetOption filetype=yaml %{
     map window insert <s-tab> '<a-;><lt>'
     map window insert <tab> '<a-;><gt>'
     set window indentwidth 2
-    set window formatcmd 'yq read -'
+    set window formatcmd 'yq read -d"*" -'
 }
 
 hook global WinSetOption filetype=java %{
@@ -86,6 +86,7 @@ hook global WinSetOption filetype=latex %{
 	}
 }
 
+map -docstring "edit .tmux.conf" global user t ':e ~/.tmux.conf<ret>'
 map -docstring "edit kakrc" global user e ':e ~/.config/kak/kakrc<ret>'
 map -docstring "edit bashrc" global user b ':e ~/.bashrc<ret>'
 map -docstring "wl-paste" global user p '!wl-paste -n<ret>'
@@ -113,4 +114,7 @@ hook global RegisterModified '"' %{ nop %sh{
 }}
 
 map global normal '#' ':comment-line<ret>'
+
+map -docstring 'split vertically' global user d ':tmux-terminal-horizontal kak -c %val{session}<ret>'
+map -docstring 'split horizontally' global user D ':tmux-terminal-vertical kak -c %val{session}<ret>'
 
