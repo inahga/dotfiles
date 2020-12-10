@@ -58,10 +58,16 @@ fi
 
 alias kakoune='command kak'
 kak() {
-	if [ -n "$(command kak -l)" ]; then
-		command kak -c "$(command kak -l)" "$@"
+	GITREPO=$(git rev-parse --git-dir)
+	SESSION=general
+	if [ -n "$GITREPO" ]; then
+		SESSION=$(echo "$GITREPO" | md5sum | head -c6)
+	fi
+
+	if command kak -l | grep -q "$SESSION"; then
+		command kak -c "$SESSION" "$@"
 	else
-		command kak "$@"
+		command kak -s "$SESSION" "$@"
 	fi
 }
 
