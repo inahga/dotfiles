@@ -80,8 +80,8 @@ offset_encoding = "utf-8"
 
 [language.c_cpp]
 filetypes = ["c", "cpp"]
-roots = ["compile_commands.json", ".clangd"]
-command = "clangd"
+roots = [".git"]
+command = "ccls"
 
 [language.haskell]
 filetypes = ["haskell"]
