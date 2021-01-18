@@ -3,7 +3,7 @@ source "%val{config}/plugins/shellcheck.kak/shellcheck.kak"
 add-highlighter global/ number-lines
 add-highlighter global/ wrap
 
-colorscheme zenburn
+colorscheme desertex
 face global Default default,default
 face global LineNumbers default,default+fgd@LineNumbers
 face global BufferPadding default,default
@@ -24,12 +24,13 @@ hook global WinSetOption filetype=(go|c|cpp|java) %{
 
 set global lsp_diagnostic_line_error_sign '║'
 set global lsp_diagnostic_line_warning_sign '┊'
+map -docstring "lsp mode" global user l ':enter-user-mode lsp<ret>'
 
 hook global KakEnd .* lsp-exit
 
 define-command -override -hidden lsp-show-error -params 1 -docstring "Render error (suppress useless gopls errors)" %{
     evaluate-commands %sh{
-        if [ "$1" = "go language server error: 'no identifier found'" ]; then
+        if [ "$1" = "go language server error: 'no object found'" ]; then
             exit 0
         fi
         echo 'echo -debug "kak-lsp:" %arg{1}'
@@ -38,8 +39,10 @@ define-command -override -hidden lsp-show-error -params 1 -docstring "Render err
 }
 
 hook global WinSetOption filetype=go %{
+	set-option window lintcmd 'golint'
     hook buffer BufWritePre .* %{
         go-format -use-goimports
+        lint
     }
 }
 
@@ -55,7 +58,7 @@ hook global WinSetOption filetype=sh %{
 
 hook global WinSetOption filetype=(c|cpp) %{
     set window formatcmd 'clang-format --fallback-style=WebKit'
-    # hook buffer BufWritePre .* %{format}
+    hook buffer BufWritePre .* %{format}
 }
 
 hook global WinSetOption filetype=yaml %{
@@ -89,6 +92,7 @@ hook global WinSetOption filetype=latex %{
 map -docstring "edit .tmux.conf" global user t ':e ~/.tmux.conf<ret>'
 map -docstring "edit kakrc" global user e ':e ~/.config/kak/kakrc<ret>'
 map -docstring "edit bashrc" global user b ':e ~/.bashrc<ret>'
+map -docstring "edit alacritty.yml" global user a ':e ~/.config/alacritty/alacritty.yml<ret>'
 map -docstring "wl-paste" global user p '!wl-paste -n<ret>'
 
 define-command user-keys-accents -docstring "Register user mode key mappings that provide accented letters" %{

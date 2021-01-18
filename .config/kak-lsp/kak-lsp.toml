@@ -1,4 +1,4 @@
-snippet_support = true
+snippet_support = false
 verbosity = 2
 
 [semantic_scopes]
@@ -80,7 +80,7 @@ offset_encoding = "utf-8"
 
 [language.c_cpp]
 filetypes = ["c", "cpp"]
-roots = [".git"]
+roots = [".git", "compile_commands.json"]
 command = "ccls"
 
 [language.haskell]
