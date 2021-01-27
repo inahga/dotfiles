@@ -25,6 +25,7 @@ hook global WinSetOption filetype=(go|c|cpp|java) %{
 set global lsp_diagnostic_line_error_sign '║'
 set global lsp_diagnostic_line_warning_sign '┊'
 map -docstring "lsp mode" global user l ':enter-user-mode lsp<ret>'
+map -docstring "lsp rename" global user r ':lsp-rename-prompt<ret>'
 
 hook global KakEnd .* lsp-exit
 
