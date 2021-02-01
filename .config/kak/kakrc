@@ -15,7 +15,7 @@ set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python) %{
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
     lsp-auto-hover-enable
@@ -45,6 +45,11 @@ hook global WinSetOption filetype=go %{
         go-format -use-goimports
         lint
     }
+}
+
+hook global WinSetOption filetype=python %{
+    set-option window lintcmd %{ run() { pylint --msg-template='{path}:{line}:{column}: {category}: {msg_id}: {msg} ({symbol})' "$1" | awk -F: 'BEGIN { OFS=":" } { if (NF == 6) { $3 += 1; print } }'; } && run }
+    hook buffer BufWritePre .* %{lint}
 }
 
 hook global WinSetOption filetype=terraform %{
