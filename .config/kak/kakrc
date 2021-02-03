@@ -15,7 +15,7 @@ set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java|python) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript) %{
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
     lsp-auto-hover-enable
@@ -50,6 +50,33 @@ hook global WinSetOption filetype=go %{
 hook global WinSetOption filetype=python %{
     set-option window lintcmd %{ run() { pylint --msg-template='{path}:{line}:{column}: {category}: {msg_id}: {msg} ({symbol})' "$1" | awk -F: 'BEGIN { OFS=":" } { if (NF == 6) { $3 += 1; print } }'; } && run }
     hook buffer BufWritePre .* %{lint}
+}
+
+hook global WinSetOption filetype=(javascript|typescript) %{
+	define-command -hidden format-eslint %{
+	    evaluate-commands -draft -no-hooks -save-regs '|' %{
+	        # Select all to format
+	        execute-keys '%'
+
+	        # eslint does a fix-dry-run with a json formatter which results in a JSON output to stdout that includes the fixed file.
+	        # jq then extracts the fixed file output from the JSON. -j returns the raw output without any escaping.
+	        set-register '|' %{
+	            %sh{
+	                echo "$kak_selection" | \
+	                npx eslint --format json \
+	                           --fix-dry-run \
+	                           --stdin \
+	                           --stdin-filename "$kak_buffile" | \
+	                jq -j ".[].output"
+	            }
+	        }
+
+	        # Replace all with content from register:
+	        execute-keys '|<ret>'
+	    }
+	}
+	set window lintcmd %{format-eslint}
+    hook buffer BufWritePre .* %{format-eslint}
 }
 
 hook global WinSetOption filetype=terraform %{
