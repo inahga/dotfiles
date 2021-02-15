@@ -74,3 +74,7 @@ kak() {
 alacritty-x11() {
 	WINIT_UNIX_BACKEND=x11 alacritty "$@"
 }
+
+NPM_PACKAGES="$HOME/.node_modules"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
