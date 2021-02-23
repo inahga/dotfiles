@@ -52,45 +52,51 @@ hook global WinSetOption filetype=python %{
     hook buffer BufWritePre .* %{lint}
 }
 
+define-command format-eslint -docstring %{
+    Formats the current buffer using eslint.
+    Respects your local project setup in eslintrc.
+} %{
+    evaluate-commands -draft -no-hooks -save-regs '|' %{
+        # Select all to format
+        execute-keys '%'
+
+        # eslint does a fix-dry-run with a json formatter which results in a JSON output to stdout that includes the fixed file.
+        # jq then extracts the fixed file output from the JSON. -j returns the raw output without any escaping.
+        set-register '|' %{
+            format_out="$(mktemp)"
+            cat | \
+            npx eslint --format json \
+                       --fix-dry-run \
+                       --stdin \
+                       --stdin-filename "$kak_buffile" | \
+            jq -j ".[].output" > "$format_out"
+            if [ $? -eq 0 ] && [ $(wc -c < "$format_out") -gt 4 ]; then
+                cat "$format_out"
+            else
+                printf 'eval -client %s %%{ fail eslint formatter returned an error %s }\n' "$kak_client" "$?" | kak -p "$kak_session"
+                echo -n "$kak_selection"
+            fi
+            rm -f "$format_out"
+        }
+
+        # Replace all with content from register:
+        execute-keys '|<ret>'
+    }
+}
+
 hook global WinSetOption filetype=(javascript|typescript) %{
-	define-command format-eslint -docstring %{
-	    Formats the current buffer using eslint.
-	    Respects your local project setup in eslintrc.
-	} %{
-	    evaluate-commands -draft -no-hooks -save-regs '|' %{
-	        # Select all to format
-	        execute-keys '%'
-
-	        # eslint does a fix-dry-run with a json formatter which results in a JSON output to stdout that includes the fixed file.
-	        # jq then extracts the fixed file output from the JSON. -j returns the raw output without any escaping.
-	        set-register '|' %{
-	            format_out="$(mktemp)"
-	            cat | \
-	            npx eslint --format json \
-	                       --fix-dry-run \
-	                       --stdin \
-	                       --stdin-filename "$kak_buffile" | \
-	            jq -j ".[].output" > "$format_out"
-	            if [ $? -eq 0 ] && [ $(wc -c < "$format_out") -gt 4 ]; then
-	                cat "$format_out"
-	            else
-	                printf 'eval -client %s %%{ fail eslint formatter returned an error %s }\n' "$kak_client" "$?" | kak -p "$kak_session"
-	                echo -n "$kak_selection"
-	            fi
-	            rm -f "$format_out"
-	        }
-
-	        # Replace all with content from register:
-	        execute-keys '|<ret>'
-	    }
-	}
-
+    map window insert <s-tab> '<a-;><lt>'
+    map window insert <tab> '<a-;><gt>'
+    set window indentwidth 4
 	set window lintcmd %{format-eslint}
     hook buffer BufWritePre .* %{format-eslint}
 }
 
 hook global WinSetOption filetype=terraform %{
     set window formatcmd 'terraform fmt -'
+    map window insert <s-tab> '<a-;><lt>'
+    map window insert <tab> '<a-;><gt>'
+    set window indentwidth 2
     hook buffer BufWritePre .* %{format}
 }
 
@@ -105,8 +111,6 @@ hook global WinSetOption filetype=(c|cpp) %{
 }
 
 hook global WinSetOption filetype=yaml %{
-    map window insert <s-tab> '<a-;><lt>'
-    map window insert <tab> '<a-;><gt>'
     set window indentwidth 2
     set window formatcmd 'yq read -d"*" -'
 }
@@ -137,24 +141,6 @@ map -docstring "edit kakrc" global user e ':e ~/.config/kak/kakrc<ret>'
 map -docstring "edit bashrc" global user b ':e ~/.bashrc<ret>'
 map -docstring "edit alacritty.yml" global user a ':e ~/.config/alacritty/alacritty.yml<ret>'
 map -docstring "wl-paste" global user p '!wl-paste -n<ret>'
-
-define-command user-keys-accents -docstring "Register user mode key mappings that provide accented letters" %{
-    map -docstring "u with umlaut" window user U 'iü<esc>'
-}
-
-define-command user-keys-rel-algebra -docstring "Register user mode key mappings that provide relational algebra symbols" %{
-    map -docstring "pi" window user P 'iΠ<esc>'
-    map -docstring "sigma" window user S 'iσ<esc>'
-    map -docstring "natural join" window user J 'i⋈<esc>'
-    map -docstring "left semi join" window user L 'i⋉<esc>'
-    map -docstring "right semi join" window user R 'i⋊<esc>'
-    map -docstring "left outer join" window user O 'i⟕<esc>'
-    map -docstring "right outer join" window user Y 'i⟖<esc>'
-    map -docstring "full outer join" window user F 'i⟗<esc>'
-    map -docstring "divide" window user D 'i÷<esc>'
-    map -docstring "intersection" window user I 'i⋂<esc>'
-    map -docstring "union" window user U 'i⋃<esc>'
-}
 
 hook global RegisterModified '"' %{ nop %sh{
     printf %s "$kak_main_reg_dquote" | wl-copy > /dev/null 2>&1 &
