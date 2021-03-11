@@ -1,4 +1,22 @@
-source "%val{config}/plugins/shellcheck.kak/shellcheck.kak"
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+plug "andreyorst/plug.kak" noload
+
+plug "whereswaldon/shellcheck.kak"
+
+plug "andreyorst/kaktree" defer kaktree %{
+    set-option global kaktree_double_click_duration '0.5'
+    set-option global kaktree_dir_icon_open  '▾ 🗁 '
+    set-option global kaktree_dir_icon_close '▸ 🗀 '
+    set-option global kaktree_file_icon      '⠀⠀🖺'
+} config %{
+    hook global WinSetOption filetype=kaktree %{
+        remove-highlighter buffer/numbers
+        remove-highlighter buffer/matching
+        remove-highlighter buffer/wrap
+        remove-highlighter buffer/show-whitespaces
+    }
+    kaktree-enable
+}
 
 add-highlighter global/ number-lines
 add-highlighter global/ wrap
@@ -150,4 +168,4 @@ map global normal '#' ':comment-line<ret>'
 
 map -docstring 'split vertically' global user d ':tmux-terminal-horizontal kak -c %val{session}<ret>'
 map -docstring 'split horizontally' global user D ':tmux-terminal-vertical kak -c %val{session}<ret>'
-
+map -docstring "kaktree" global user k ':kaktree-toggle<ret>'
