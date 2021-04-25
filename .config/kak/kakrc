@@ -66,8 +66,15 @@ hook global WinSetOption filetype=go %{
 }
 
 hook global WinSetOption filetype=python %{
+    map window insert <s-tab> '<a-;><lt>'
+    map window insert <tab> '<a-;><gt>'
+    set window indentwidth 4
+    set-option window formatcmd 'autopep8 -aaa -'
     set-option window lintcmd %{ run() { pylint --msg-template='{path}:{line}:{column}: {category}: {msg_id}: {msg} ({symbol})' "$1" | awk -F: 'BEGIN { OFS=":" } { if (NF == 6) { $3 += 1; print } }'; } && run }
-    hook buffer BufWritePre .* %{lint}
+    hook buffer BufWritePre .* %{
+	    format
+	    lint
+	}
 }
 
 define-command format-eslint -docstring %{
