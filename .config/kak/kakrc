@@ -66,8 +66,8 @@ hook global WinSetOption filetype=go %{
 }
 
 hook global WinSetOption filetype=python %{
-    map window insert <s-tab> '<a-;><lt>'
-    map window insert <tab> '<a-;><gt>'
+    map window insert <s-tab> '<a-;>    '
+    map window insert <tab> '<a-;>    '
     set window indentwidth 4
     set-option window formatcmd 'autopep8 -aaa -'
     set-option window lintcmd %{ run() { pylint --msg-template='{path}:{line}:{column}: {category}: {msg_id}: {msg} ({symbol})' "$1" | awk -F: 'BEGIN { OFS=":" } { if (NF == 6) { $3 += 1; print } }'; } && run }
@@ -110,17 +110,17 @@ define-command format-eslint -docstring %{
 }
 
 hook global WinSetOption filetype=(javascript|typescript) %{
-    map window insert <s-tab> '<a-;><lt>'
-    map window insert <tab> '<a-;><gt>'
-    set window indentwidth 4
+    map window insert <s-tab> '<a-;>  '
+    map window insert <tab> '<a-;>  '
+    set window indentwidth 2
 	set window lintcmd %{format-eslint}
     hook buffer BufWritePre .* %{format-eslint}
 }
 
 hook global WinSetOption filetype=terraform %{
     set window formatcmd 'terraform fmt -'
-    map window insert <s-tab> '<a-;><lt>'
-    map window insert <tab> '<a-;><gt>'
+    map window insert <s-tab> '<a-;>  '
+    map window insert <tab> '<a-;>  '
     set window indentwidth 2
     hook buffer BufWritePre .* %{format}
 }
@@ -136,6 +136,8 @@ hook global WinSetOption filetype=(c|cpp) %{
 }
 
 hook global WinSetOption filetype=yaml %{
+    map window insert <s-tab> '<a-;>  '
+    map window insert <tab> '<a-;>  '
     set window indentwidth 2
     set window formatcmd 'yq read -d"*" -'
 }
