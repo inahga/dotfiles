@@ -78,3 +78,9 @@ alacritty-x11() {
 NPM_PACKAGES="$HOME/.node_modules"
 export PATH="$PATH:$NPM_PACKAGES/bin"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+
+# alacritty pinebook pro fix
+# https://github.com/alacritty/alacritty/issues/128#issuecomment-663927477
+if [ "$(uname -m)" == "aarch64" ]; then
+	export PAN_MESA_DEBUG=gl3
+fi
