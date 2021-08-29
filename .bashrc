@@ -7,7 +7,7 @@ export LS_COLORS='rs=0:di=33:ln=38;5;51:mh=00:pi=40;38;5;11:so=38;5;13:do=38;5;5
 export GLADMOJI="😀😅😆😄😃😇😉😊🙂😋😍😘😜😝😛😎😏😻😺🙌💪👌🌞🔥👍💕💯✅🆒🆗💲"
 export SADMOJI="😶😳😠😞😡😕😣😖😫😩😮😱😨😰😯😦😢😥😥😵😭😴😷💀😿👎🙊💥🔪💔🆘⛔🚫❌🚷❓❗"
 export PROMPT_DIRTRIM=3
-export PS1="\n\e[36m[\!] \u@\h\[\e[0m\] \
+export PS1="\n\e[36m[\d \t] \u@\h\[\e[0m\] \
 \$(if [ \$? == 0 ]; then echo -n \"\${GLADMOJI:RANDOM%\${#GLADMOJI}:1}\"; \
 else echo -n \"\${SADMOJI:RANDOM%\${#SADMOJI}:1}\"; fi)\
 \$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \w\n🐧 "

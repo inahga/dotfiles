@@ -33,7 +33,7 @@ set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust) %{
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
     lsp-auto-hover-enable
@@ -119,8 +119,8 @@ hook global WinSetOption filetype=(javascript|typescript) %{
 
 hook global WinSetOption filetype=terraform %{
     set window formatcmd 'terraform fmt -'
-    map window insert <s-tab> '<a-;>  '
-    map window insert <tab> '<a-;>  '
+    map window insert <s-tab> '<a-;>   '
+    map window insert <tab> '<a-;>   '
     set window indentwidth 2
     hook buffer BufWritePre .* %{format}
 }
@@ -130,9 +130,14 @@ hook global WinSetOption filetype=sh %{
     hook buffer BufWritePre .* %{format}
 }
 
-hook global WinSetOption filetype=(c|cpp) %{
-    set window formatcmd 'clang-format --fallback-style=WebKit'
+hook global WinSetOption filetype=rust %{
+    set window formatcmd 'rustfmt'
     hook buffer BufWritePre .* %{format}
+}
+
+hook global WinSetOption filetype=(c|cpp) %{
+    # set window formatcmd 'clang-format --fallback-style=WebKit'
+    # hook buffer BufWritePre .* %{format}
 }
 
 hook global WinSetOption filetype=yaml %{
