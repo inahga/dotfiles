@@ -21,7 +21,7 @@ plug "andreyorst/kaktree" defer kaktree %{
 add-highlighter global/ number-lines
 add-highlighter global/ wrap
 
-colorscheme desertex
+colorscheme tomorrow-night
 face global Default default,default
 face global LineNumbers default,default+fgd@LineNumbers
 face global BufferPadding default,default
@@ -33,7 +33,7 @@ set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python|rust) %{
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
     lsp-auto-hover-enable
@@ -59,8 +59,9 @@ define-command -override -hidden lsp-show-error -params 1 -docstring "Render err
 
 hook global WinSetOption filetype=go %{
 	set-option window lintcmd 'golint'
+	set-option window formatcmd 'goimports'
     hook buffer BufWritePre .* %{
-        go-format -use-goimports
+	    format
         lint
     }
 }
@@ -75,46 +76,6 @@ hook global WinSetOption filetype=python %{
 	    format
 	    lint
 	}
-}
-
-define-command format-eslint -docstring %{
-    Formats the current buffer using eslint.
-    Respects your local project setup in eslintrc.
-} %{
-    evaluate-commands -draft -no-hooks -save-regs '|' %{
-        # Select all to format
-        execute-keys '%'
-
-        # eslint does a fix-dry-run with a json formatter which results in a JSON output to stdout that includes the fixed file.
-        # jq then extracts the fixed file output from the JSON. -j returns the raw output without any escaping.
-        set-register '|' %{
-            format_out="$(mktemp)"
-            cat | \
-            npx eslint --format json \
-                       --fix-dry-run \
-                       --stdin \
-                       --stdin-filename "$kak_buffile" | \
-            jq -j ".[].output" > "$format_out"
-            if [ $? -eq 0 ] && [ $(wc -c < "$format_out") -gt 4 ]; then
-                cat "$format_out"
-            else
-                printf 'eval -client %s %%{ fail eslint formatter returned an error %s }\n' "$kak_client" "$?" | kak -p "$kak_session"
-                echo -n "$kak_selection"
-            fi
-            rm -f "$format_out"
-        }
-
-        # Replace all with content from register:
-        execute-keys '|<ret>'
-    }
-}
-
-hook global WinSetOption filetype=(javascript|typescript) %{
-    map window insert <s-tab> '<a-;>  '
-    map window insert <tab> '<a-;>  '
-    set window indentwidth 2
-	set window lintcmd %{format-eslint}
-    hook buffer BufWritePre .* %{format-eslint}
 }
 
 hook global WinSetOption filetype=terraform %{
@@ -172,10 +133,10 @@ map -docstring "edit .tmux.conf" global user t ':e ~/.tmux.conf<ret>'
 map -docstring "edit kakrc" global user e ':e ~/.config/kak/kakrc<ret>'
 map -docstring "edit bashrc" global user b ':e ~/.bashrc<ret>'
 map -docstring "edit alacritty.yml" global user a ':e ~/.config/alacritty/alacritty.yml<ret>'
-map -docstring "wl-paste" global user p '!wl-paste -n<ret>'
+map -docstring "wl-paste" global user p '!xclip -selection clipboard -o<ret>'
 
 hook global RegisterModified '"' %{ nop %sh{
-    printf %s "$kak_main_reg_dquote" | wl-copy > /dev/null 2>&1 &
+    printf %s "$kak_main_reg_dquote" | xclip -selection clipboard >/dev/null 2>&1 &
 }}
 
 map global normal '#' ':comment-line<ret>'

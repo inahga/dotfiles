@@ -2,8 +2,10 @@
 [user]
 # Please adapt and uncomment the following lines:
 	name = Ameer Ghani
-	email = inahga@gmail.com
+	email = ameer.ghani@ibm.com
 [pull]
 	rebase = false
 [core]
 	excludesfile = /home/aghani/.gitignore
+[url "git@github.ibm.com:"]
+	insteadOf = https://github.ibm.com

@@ -1,6 +1,7 @@
 # .shrc
 # cross platform .bashrc
-EDITOR=/usr/bin/kak
+export EDITOR=/usr/bin/kak
+export PAGER="less -R"
 
 DEFAULT_TMUX="base"
 if [ -z "$TMUX" ]; then
@@ -28,6 +29,8 @@ alias p='podman'
 alias what='echo $?'
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias protontricks-flat='flatpak run --command=protontricks com.valvesoftware.Steam'
+alias bx='ibmcloud'
+alias xclip='xclip -selection clipboard'
 
 cl() {
 	cd "$1" || exit
@@ -58,7 +61,7 @@ fi
 
 alias kakoune='command kak'
 kak() {
-	GITREPO=$(git rev-parse --git-dir 2>/dev/null)
+	GITREPO=$(git rev-parse --show-toplevel 2>/dev/null)
 	SESSION=general
 	if [ -n "$GITREPO" ]; then
 		SESSION=$(echo "$GITREPO" | md5sum | head -c6)
@@ -76,11 +79,29 @@ alacritty-x11() {
 }
 
 NPM_PACKAGES="$HOME/.node_modules"
-export PATH="$PATH:$NPM_PACKAGES/bin"
+export PATH="$PATH:$NPM_PACKAGES/bin:$HOME/.cargo/bin"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
 # alacritty pinebook pro fix
 # https://github.com/alacritty/alacritty/issues/128#issuecomment-663927477
 if [ "$(uname -m)" == "aarch64" ]; then
 	export PAN_MESA_DEBUG=gl3
+fi
+
+if [ -e /opt/ibm ]; then
+	export GPG_TTY="$(tty)"
+	export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+	gpgconf --launch gpg-agent
+
+	export GOPRIVATE=github.ibm.com
+
+	ghfind() {
+		if [ -z "$1" ]; then
+			less ~/.ssh/config.d/github.ibm.com
+		else
+			grep -A4 "$1" ~/.ssh/config.d/github.ibm.com
+		fi
+	}
+
+	alias xclip='xclip -selection clipboard'
 fi
