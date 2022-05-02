@@ -58,7 +58,7 @@ fi
 
 alias kakoune='command kak'
 kak() {
-	GITREPO=$(git rev-parse --git-dir 2>/dev/null)
+	GITREPO=$(git rev-parse --show-toplevel 2>/dev/null)
 	SESSION=general
 	if [ -n "$GITREPO" ]; then
 		SESSION=$(echo "$GITREPO" | md5sum | head -c6)
