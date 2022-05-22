@@ -7,3 +7,8 @@
 	rebase = false
 [core]
 	excludesfile = /home/aghani/.gitignore
+[sendemail]
+	smtpserver = smtp.gmail.com
+	smtpuser = inahga@gmail.com
+	smtpencryption = tls
+	smtpserverport = 587
