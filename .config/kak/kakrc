@@ -21,7 +21,7 @@ plug "andreyorst/kaktree" defer kaktree %{
 add-highlighter global/ number-lines
 add-highlighter global/ wrap
 
-colorscheme desertex
+colorscheme tomorrow-night
 face global Default default,default
 face global LineNumbers default,default+fgd@LineNumbers
 face global BufferPadding default,default
@@ -183,3 +183,6 @@ map global normal '#' ':comment-line<ret>'
 map -docstring 'split vertically' global user d ':tmux-terminal-horizontal kak -c %val{session}<ret>'
 map -docstring 'split horizontally' global user D ':tmux-terminal-vertical kak -c %val{session}<ret>'
 map -docstring "kaktree" global user k ':kaktree-toggle<ret>'
+
+map global normal <space> ,
+map global normal , <space>
