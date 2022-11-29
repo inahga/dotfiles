@@ -31,6 +31,11 @@ alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias protontricks-flat='flatpak run --command=protontricks com.valvesoftware.Steam'
 alias bx='ibmcloud'
 alias xclip='xclip -selection clipboard'
+alias ipsort='sort -t . -k 3,3n -k 4,4n'
+
+a() {
+	awk "${@:2}" "{ print \$$1 }"
+}
 
 cl() {
 	cd "$1" || exit
@@ -97,11 +102,15 @@ if [ -e /opt/ibm ]; then
 
 	ghfind() {
 		if [ -z "$1" ]; then
-			less ~/.ssh/config.d/github.ibm.com
+			less ~/.ssh/config.d/ghe-softlayer
 		else
-			grep -A4 "$1" ~/.ssh/config.d/github.ibm.com
+			grep -A4 "$1" ~/.ssh/config.d/ghe-softlayer
 		fi
 	}
 
 	alias xclip='xclip -selection clipboard'
+
+	export IBMCLOUD_IAM_TOKEN=$(jq -r .IAMToken ~/.bluemix/config.json)
+	export IBMCLOUD_IAM_REFRESH_TOKEN=$(jq -r .IAMRefreshToken ~/.bluemix/config.json)
+	export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
 fi

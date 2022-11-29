@@ -58,11 +58,9 @@ define-command -override -hidden lsp-show-error -params 1 -docstring "Render err
 }
 
 hook global WinSetOption filetype=go %{
-	set-option window lintcmd 'golint'
 	set-option window formatcmd 'goimports'
     hook buffer BufWritePre .* %{
 	    format
-        lint
     }
 }
 
@@ -105,7 +103,7 @@ hook global WinSetOption filetype=yaml %{
     map window insert <s-tab> '<a-;>  '
     map window insert <tab> '<a-;>  '
     set window indentwidth 2
-    set window formatcmd 'yq read -d"*" -'
+    set window formatcmd 'yamlfmt -'
 }
 
 hook global WinSetOption filetype=java %{
@@ -144,3 +142,6 @@ map global normal '#' ':comment-line<ret>'
 map -docstring 'split vertically' global user d ':tmux-terminal-horizontal kak -c %val{session}<ret>'
 map -docstring 'split horizontally' global user D ':tmux-terminal-vertical kak -c %val{session}<ret>'
 map -docstring "kaktree" global user k ':kaktree-toggle<ret>'
+
+map global normal ',' '<space>'
+map global normal '<space>' ','

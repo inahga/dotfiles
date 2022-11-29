@@ -1,4 +1,5 @@
 # .bashrc
+set -o vi
 
 source ~/.shrc
 
@@ -39,3 +40,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 if [ -e "$HOME/.cargo/env" ]; then
 	. "$HOME/.cargo/env"
 fi
+
+# added by travis gem
+[ ! -s /home/aghani/.travis/travis.sh ] || source /home/aghani/.travis/travis.sh
