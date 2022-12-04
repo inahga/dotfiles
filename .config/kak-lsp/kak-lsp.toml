@@ -328,8 +328,8 @@ settings_section = "_"
 #     """,
 # ]
 # [language.rust.settings.rust]
-# # See https://github.com/rust-lang/rls#configuration
-# # features = []
+# See https://github.com/rust-lang/rls#configuration
+# features = []
 
 [language.rust]
 filetypes = ["rust"]

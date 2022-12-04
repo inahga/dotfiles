@@ -26,14 +26,14 @@ face global Default default,default
 face global LineNumbers default,default+fgd@LineNumbers
 face global BufferPadding default,default
 
-eval %sh{kak-lsp --kakoune -s $kak_session}
-lsp-enable
+eval %sh{kak-lsp -vvvv --kakoune -s $kak_session}
 
 set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
 hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust) %{
+	lsp-enable-window
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
     lsp-auto-hover-enable
@@ -59,8 +59,9 @@ define-command -override -hidden lsp-show-error -params 1 -docstring "Render err
 
 hook global WinSetOption filetype=go %{
 	set-option window lintcmd 'golint'
+	set-option window formatcmd 'goimports'
     hook buffer BufWritePre .* %{
-        go-format -use-goimports
+	    format
         lint
     }
 }
