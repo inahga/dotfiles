@@ -27,16 +27,18 @@ face global LineNumbers default,default+fgd@LineNumbers
 face global BufferPadding default,default
 
 eval %sh{kak-lsp --kakoune -s $kak_session}
-lsp-enable
 
 set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java|python|rust) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust) %{
+	lsp-enable-window
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
+    set-option window lsp_hover_max_lines 10
     lsp-auto-hover-enable
+    lsp-inlay-code-lenses-enable window
     echo -debug "Enabling LSP for filetype %opt{filetype}"
 }
 
@@ -58,9 +60,11 @@ define-command -override -hidden lsp-show-error -params 1 -docstring "Render err
 }
 
 hook global WinSetOption filetype=go %{
+	set-option window lintcmd 'golint'
 	set-option window formatcmd 'goimports'
     hook buffer BufWritePre .* %{
 	    format
+        lint
     }
 }
 
@@ -132,6 +136,8 @@ map -docstring "edit kakrc" global user e ':e ~/.config/kak/kakrc<ret>'
 map -docstring "edit bashrc" global user b ':e ~/.bashrc<ret>'
 map -docstring "edit alacritty.yml" global user a ':e ~/.config/alacritty/alacritty.yml<ret>'
 map -docstring "wl-paste" global user p '!xclip -selection clipboard -o<ret>'
+map -docstring "lsp-hover-buffer" global user H ':lsp-hover-buffer<ret>'
+map -docstring "lsp-code-actions" global user a ':lsp-code-actions<ret>'
 
 hook global RegisterModified '"' %{ nop %sh{
     printf %s "$kak_main_reg_dquote" | xclip -selection clipboard >/dev/null 2>&1 &
