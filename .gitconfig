@@ -11,3 +11,5 @@
 	insteadOf = https://github.ibm.com
 [url "git@github.ibm.com:GoldenEye"]
 	insteadOf = https://github.ibm.com/GoldenEye
+[push]
+	autoSetupRemote = true

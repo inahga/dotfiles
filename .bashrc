@@ -1,10 +1,23 @@
-# .bashrc 
+# .bashrc
 source ~/.shrc
+
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+export HISTFILE=~/.bash_eternal_history
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+__kube_ps1() {
+	CONTEXT=$(cat ~/.kube/config | grep "current-context:" | sed "s/current-context: //" | cut -f1 -d'/')
+	if [ -n "$CONTEXT" ]; then
+		echo "(k8s: ${CONTEXT})"
+	fi
+}
 
 export GLADMOJI="😀😅😆😄😃😇😉😊🙂😋😍😘😜😝😛😎😏😻😺🙌💪👌🌞🔥👍💕💯✅🆒🆗💲"
 export SADMOJI="😶😳😠😞😡😕😣😖😫😩😮😱😨😰😯😦😢😥😥😵😭😴😷💀😿👎🙊💥🔪💔🆘⛔🚫❌🚷❓❗"
 export PROMPT_DIRTRIM=3
-export PS1="\n\e[36m\u@\h\[\e[0m\] \
+export PS1="\n\e[36m\u\[\e[0m\] \
 \$(if [ \$? == 0 ]; then echo -n \"\${GLADMOJI:RANDOM%\${#GLADMOJI}:1}\"; \
 else echo -n \"\${SADMOJI:RANDOM%\${#SADMOJI}:1}\"; fi) \
 \$(__kube_ps1)\$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \w\n🐧 "
