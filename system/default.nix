@@ -62,6 +62,7 @@
   services.blueman.enable = true;
   services.tlp.enable = true;
   services.fwupd.enable = true;
+  services.pcscd.enable = true;
 
   services.pipewire = {
     enable = true;
