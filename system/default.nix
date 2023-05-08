@@ -23,13 +23,8 @@
 
   system.autoUpgrade.enable = true;
 
-  networking.networkmanager = {
-    enable = true;
-    plugins = with pkgs; [ networkmanager-openvpn networkmanager-openconnect ];
-  };
-  networking.wireless.enable = true;
+  networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
-
   hardware.bluetooth = {
     enable = true;
     settings = { General = { Enable = "Source,Sink,Media,Socket"; }; };
@@ -63,7 +58,6 @@
   services.tlp.enable = true;
   services.fwupd.enable = true;
   services.pcscd.enable = true;
-
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -84,7 +78,6 @@
     acpi
     alacritty
     ansible
-    awscli
     awscli2
     bind
     brightnessctl
@@ -134,6 +127,7 @@
     peek
     pgcli
     playerctl
+    powertop
     psmisc
     pstree
     ripgrep
@@ -168,6 +162,8 @@
     nixpkgs-fmt
     distrobox
   ];
+
+  programs.sway.enable = true;
 
   # Set up firefox for wayland usage
   programs.firefox = {

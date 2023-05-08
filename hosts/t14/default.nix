@@ -4,8 +4,7 @@ in {
   system.stateVersion = "23.05";
   networking.hostName = hostName;
 
-  hardware.cpu.amd.updateMicrocode = true;
   boot.kernelParams = [ "acpi_backlight=native" ];
 
-  imports = [ ../../system ../../home ./amd.nix ];
+  imports = [ ../../system ../../home ./amd.nix ./hardware-configuration.nix ];
 }
