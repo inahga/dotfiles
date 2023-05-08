@@ -2,11 +2,15 @@
 let
   home-manager = builtins.fetchTarball
     "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  nix-alien-pkgs = import (builtins.fetchTarball
+    "https://github.com/thiagokokada/nix-alien/tarball/master") { };
 in {
   imports = [ (import "${home-manager}/nixos") ];
 
   home-manager.users.inahga = {
     home.stateVersion = "22.11";
+
+    home.packages = with nix-alien-pkgs; [ nix-alien ];
 
     home.shellAliases = {
       fzf = "fzf --reverse";

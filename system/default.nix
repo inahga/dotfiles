@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   nixpkgs.config.allowUnfree = true;
   nix = {
     settings.auto-optimise-store = true;
@@ -28,7 +28,7 @@
     plugins = with pkgs; [ networkmanager-openvpn networkmanager-openconnect ];
   };
   networking.wireless.enable = true;
-  networking.useDHCP = true;
+  networking.useDHCP = lib.mkDefault true;
 
   hardware.bluetooth = {
     enable = true;
@@ -166,6 +166,7 @@
     yubioath-flutter
     zip
     nixpkgs-fmt
+    distrobox
   ];
 
   # Set up firefox for wayland usage
