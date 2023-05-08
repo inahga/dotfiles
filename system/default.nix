@@ -28,12 +28,12 @@
     plugins = with pkgs; [ networkmanager-openvpn networkmanager-openconnect ];
   };
   networking.wireless.enable = true;
+  networking.useDHCP = true;
 
   hardware.bluetooth = {
     enable = true;
     settings = { General = { Enable = "Source,Sink,Media,Socket"; }; };
   };
-  # hardware.cpu.amd.updateMicrocode = true;
 
   time.timeZone = "America/Detroit";
 
