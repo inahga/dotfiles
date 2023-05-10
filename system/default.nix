@@ -168,7 +168,6 @@
     xdg-desktop-portal
     xterm
     yubikey-manager
-    yubioath-flutter
     zip
   ];
 
