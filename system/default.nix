@@ -11,9 +11,6 @@
 
   boot = {
     loader.systemd-boot.enable = true;
-    initrd.systemd.enable = true;
-    kernelParams = [ "quiet" ];
-    plymouth.enable = true;
   };
 
   swapDevices = [{
@@ -22,6 +19,8 @@
   }];
 
   system.autoUpgrade.enable = true;
+
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
@@ -88,6 +87,7 @@
     curl
     dig
     discord
+    distrobox
     drawio
     entr
     evince
@@ -102,6 +102,7 @@
     git-crypt
     go
     gopls
+    gotools
     grim
     htop
     jq
@@ -117,12 +118,17 @@
     libnotify
     libreoffice
     libuuid
+    lm_sensors
     lvm2
     mako
     moreutils
     mutt
+    nix-tree
+    nixpkgs-fmt
+    numix-cursor-theme
     obs-studio
     pamixer
+    pavucontrol
     pass
     peek
     pgcli
@@ -135,12 +141,14 @@
     rsync
     shellcheck
     shfmt
+    signal-desktop
     slack
     slurp
     socat
     spotify
     swaybg
     swayidle
+    swaylock
     terraform
     tmux
     tree
@@ -151,6 +159,7 @@
     vim
     virt-manager
     vlc
+    waybar
     webcamoid
     wget
     wl-clipboard
@@ -159,8 +168,6 @@
     yubikey-manager
     yubioath-flutter
     zip
-    nixpkgs-fmt
-    distrobox
   ];
 
   programs.sway.enable = true;
@@ -198,5 +205,6 @@
     dina-font
     proggyfonts
     dejavu_fonts
+    font-awesome
   ];
 }

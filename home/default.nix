@@ -98,6 +98,7 @@ in {
       XDG_CURRENT_DESKTOP = "river";
       XKB_DEFAULT_OPTIONS = "caps:escape";
       EDITOR = "kak";
+      QT_SCALE_FACTOR = "2.0";
     };
 
     xdg.configFile."river/init" = {
@@ -105,8 +106,12 @@ in {
       executable = true;
     };
     xdg.configFile."kak/kakrc".source = ./kakrc;
+    xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
     xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
     xdg.configFile."alacritty/alacritty.yml".source = ./alacritty.yml;
+    xdg.configFile."kanshi/config".source = ./kanshi-config;
+    xdg.configFile."waybar/config".source = ./waybar-config;
+    xdg.configFile."waybar/style.css".source = ./waybar-style.css;
     home.file.".tmux.conf".source = ./tmux.conf;
     home.file.".vimrc".source = ./vimrc;
     home.file.".git-prompt".source = ./git-prompt.sh;
@@ -124,10 +129,22 @@ in {
     };
 
     dconf.settings = {
-      "org/gnome/desktop/interface" = { color-scheme = "prefer-dark"; };
+      "org/gnome/desktop/interface" = {
+        #color-scheme = "prefer-dark";
+        #cursor-theme = "Numix-Cursor-Light";
+        cursor-size = 48;
+        text-scaling-factor = 1.5;
+      };
+    };
+
+    home.pointerCursor = {
+      package = pkgs.numix-cursor-theme;
+      name = "Numix-Cursor-Light";
+      size = 48;
+      x11.enable = true;
+      gtk.enable = true;
     };
 
     # better fuzzel theme
-    # kanshi
   };
 }

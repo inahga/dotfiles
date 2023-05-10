@@ -2,11 +2,14 @@
 # Total rip from https://github.com/whereswaldon/configuration/blob/public/river/init
 
 export XDG_CURRENT_DESKTOP=river
+export XCURSOR_THEME=Numix-Cursor-Light
+export XCURSOR_SIZE=48
+export QT_SCALE_FACTOR="2.0"
 
 set_background() {
-	riverctl background-color 0x2d2d2d
+	riverctl background-color 0x000000
 	riverctl border-color-focused 0x93a1a1
-	riverctl border-color-unfocused 0x586e75
+	riverctl border-color-unfocused 0x000000
 	swaybg -m fill -i "$(fd jpg "$HOME/Pictures/wallpapers" | shuf | head -n1)" &
 }
 
@@ -28,47 +31,61 @@ set_environment() {
 	# Configure preferred touchpad stuff.
 	# riverctl input "pointer-2-7-SynPS/2_Synaptics_TouchPad" tap enabled
 	# riverctl input "pointer-2-7-SynPS/2_Synaptics_TouchPad" pointer-accel 0.3
+	riverctl xcursor-theme $XCURSOR_THEME $XCURSOR_SIZE
 }
 
 set_bindings() {
-	riverctl map normal Super Space spawn fuzzel                  # start launcher
-	riverctl map normal Super Q close                             # close current view
-	riverctl map normal Super+Shift E exit                        # exit river
-	riverctl map normal Super Z toggle-fullscreen                 # toggle fullscreen view
-	riverctl map normal Super F toggle-float                      # float window
-	riverctl map normal Super H move left 100                     # move floating views
-	riverctl map normal Super J move down 100                     #
-	riverctl map normal Super K move up 100                       #
-	riverctl map normal Super L move right 100                    #
-	riverctl map normal Super+Mod1 H snap left                    # snap floating views
-	riverctl map normal Super+Mod1 J snap down                    #
-	riverctl map normal Super+Mod1 K snap up                      #
-	riverctl map normal Super+Mod1 L snap right                   #
-	riverctl map normal Super+Shift H resize horizontal -100      # resize views
-	riverctl map normal Super+Shift J resize vertical 100         #
-	riverctl map normal Super+Shift K resize vertical -100        #
-	riverctl map normal Super+Shift L resize horizontal 100       #
-	riverctl map normal Super Period focus-output next            # focus next monitor
-	riverctl map normal Super Comma focus-output previous         # focus previous monitor
-	riverctl map normal Super+Shift Period send-to-output next    # send to next monitor
-	riverctl map normal Super+Shift Comma send-to-output previous # send to previous monitor
-	riverctl map normal Super Return zoom                         # move focus view to top of layout stack
-	riverctl map normal Super M focus-view next                   #
-	riverctl map normal Super N focus-view previous               #
-	riverctl map normal Super+Shift N swap next                   #
-	riverctl map normal Super+Shift M swap previous               #
-	riverctl map-pointer normal Super BTN_LEFT move-view          #
-	riverctl map-pointer normal Super BTN_RIGHT resize-view       #
+	riverctl map normal Super Space spawn fuzzel               # start launcher
+	riverctl map normal Super Q close                          # close current view
+	riverctl map normal Super+Shift E exit                     # exit river
+	riverctl map normal Control+Alt Delete spawn "swaylock -f" # lock screen
+	riverctl map normal Super J focus-view next
+	riverctl map normal Super K focus-view previous
+	riverctl map normal Super+Shift J swap next
+	riverctl map normal Super+Shift K swap previous
+	riverctl map normal Super Period focus-output next
+	riverctl map normal Super Comma focus-output previous
+	riverctl map normal Super+Shift Period send-to-output next
+	riverctl map normal Super+Shift Comma send-to-output previous
+	riverctl map normal Super Return zoom
+	riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+	riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+	riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
+	riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+	riverctl map normal Super+Alt H move left 100
+	riverctl map normal Super+Alt J move down 100
+	riverctl map normal Super+Alt K move up 100
+	riverctl map normal Super+Alt L move right 100
+	riverctl map normal Super+Alt+Control H snap left
+	riverctl map normal Super+Alt+Control J snap down
+	riverctl map normal Super+Alt+Control K snap up
+	riverctl map normal Super+Alt+Control L snap right
+	riverctl map normal Super+Alt+Shift H resize horizontal -100
+	riverctl map normal Super+Alt+Shift J resize vertical 100
+	riverctl map normal Super+Alt+Shift K resize vertical -100
+	riverctl map normal Super+Alt+Shift L resize horizontal 100
+	riverctl map-pointer normal Super BTN_LEFT move-view
+	riverctl map-pointer normal Super BTN_RIGHT resize-view
+	riverctl map-pointer normal Super BTN_MIDDLE toggle-float
 
-	# Ratio of the main view relative to the others.
-	riverctl map normal Super+Shift Right send-layout-cmd rivertile "main-ratio -0.05"
-	riverctl map normal Super+Shift Left send-layout-cmd rivertile "main-ratio +0.05"
+	for i in $(seq 1 9); do
+		tags=$((1 << ($i - 1)))
+		riverctl map normal Super $i set-focused-tags $tags               # focus tag
+		riverctl map normal Super+Shift $i set-view-tags $tags            # tag view
+		riverctl map normal Super+Control $i toggle-focused-tags $tags    # toggle focus of tag
+		riverctl map normal Super+Shift+Control $i toggle-view-tags $tags # toggle tag of focused view
+	done
 
-	# Number of views in the main view.
-	riverctl map normal Super+Shift Up send-layout-cmd rivertile "main-count +1"
-	riverctl map normal Super+Shift Down send-layout-cmd rivertile "main-count -1"
+	# Super+0 to focus all tags
+	# Super+Shift+0 to tag focused view with all tags
+	all_tags=$(((1 << 32) - 1))
+	riverctl map normal Super 0 set-focused-tags $all_tags
+	riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-	# Set where the main view is.
+	riverctl map normal Super F toggle-float
+	riverctl map normal Super Z toggle-fullscreen
+
+	# Super+{Up,Right,Down,Left} to change layout orientation
 	riverctl map normal Super Up send-layout-cmd rivertile "main-location top"
 	riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
 	riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
@@ -95,19 +112,22 @@ set_bindings() {
 		riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
 		riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
 		riverctl map $mode None XF86AudioNext spawn 'playerctl next'
-		riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl set +5%'
-		riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+		riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl set +10%'
+		riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 10%-'
 	done
 }
 
 spawn_daemons() {
-	# idle timeout daemon
-	swayidle -w timeout 1500 wlock before-sleep wlock 2>&1 |
-		sed -e 's/^/swaylock: /' &
-	sleep 0.1 && kanshi 2>&1 | sed -e 's/^/kanshi: /' & # display management daemon
-	sleep 0.1 && mako 2>&1 | sed -e 's/^/mako: /' &     # notification daemone
+	swayidle -w timeout 1800 'swaylock -f' | sed -e 's/^/swayidle: /' & # idle timeout daemon
+	sleep 0.1 && kanshi 2>&1 | sed -e 's/^/kanshi: /' &                 # display management daemon
+	sleep 0.1 && mako 2>&1 | sed -e 's/^/mako: /' &                     # notification daemone
 }
 
+spawn_waybar() {
+	waybar 2>&1 | sed -e 's/^/waybar: /' &
+}
+
+spawn_waybar
 set_background
 set_bindings
 set_environment

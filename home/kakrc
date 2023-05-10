@@ -1,23 +1,3 @@
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
-plug "andreyorst/plug.kak" noload
-
-plug "whereswaldon/shellcheck.kak"
-
-plug "andreyorst/kaktree" defer kaktree %{
-    set-option global kaktree_double_click_duration '0.5'
-    set-option global kaktree_dir_icon_open  '▾ 🗁 '
-    set-option global kaktree_dir_icon_close '▸ 🗀 '
-    set-option global kaktree_file_icon      '⠀⠀🖺'
-} config %{
-    hook global WinSetOption filetype=kaktree %{
-        remove-highlighter buffer/numbers
-        remove-highlighter buffer/matching
-        remove-highlighter buffer/wrap
-        remove-highlighter buffer/show-whitespaces
-    }
-    kaktree-enable
-}
-
 add-highlighter global/ number-lines
 add-highlighter global/ wrap
 
@@ -60,64 +40,10 @@ define-command -override -hidden lsp-show-error -params 1 -docstring "Render err
 }
 
 hook global WinSetOption filetype=go %{
-	set-option window lintcmd 'golint'
 	set-option window formatcmd 'goimports'
     hook buffer BufWritePre .* %{
 	    format
-        lint
     }
-}
-
-hook global WinSetOption filetype=python %{
-    map window insert <s-tab> '<a-;>    '
-    map window insert <tab> '<a-;>    '
-    set window indentwidth 4
-    set-option window formatcmd 'autopep8 -aaa -'
-    set-option window lintcmd %{ run() { pylint --msg-template='{path}:{line}:{column}: {category}: {msg_id}: {msg} ({symbol})' "$1" | awk -F: 'BEGIN { OFS=":" } { if (NF == 6) { $3 += 1; print } }'; } && run }
-    hook buffer BufWritePre .* %{
-	    format
-	    lint
-	}
-}
-
-define-command format-eslint -docstring %{
-    Formats the current buffer using eslint.
-    Respects your local project setup in eslintrc.
-} %{
-    evaluate-commands -draft -no-hooks -save-regs '|' %{
-        # Select all to format
-        execute-keys '%'
-
-        # eslint does a fix-dry-run with a json formatter which results in a JSON output to stdout that includes the fixed file.
-        # jq then extracts the fixed file output from the JSON. -j returns the raw output without any escaping.
-        set-register '|' %{
-            format_out="$(mktemp)"
-            cat | \
-            npx eslint --format json \
-                       --fix-dry-run \
-                       --stdin \
-                       --stdin-filename "$kak_buffile" | \
-            jq -j ".[].output" > "$format_out"
-            if [ $? -eq 0 ] && [ $(wc -c < "$format_out") -gt 4 ]; then
-                cat "$format_out"
-            else
-                printf 'eval -client %s %%{ fail eslint formatter returned an error %s }\n' "$kak_client" "$?" | kak -p "$kak_session"
-                echo -n "$kak_selection"
-            fi
-            rm -f "$format_out"
-        }
-
-        # Replace all with content from register:
-        execute-keys '|<ret>'
-    }
-}
-
-hook global WinSetOption filetype=(javascript|typescript) %{
-    map window insert <s-tab> '<a-;>  '
-    map window insert <tab> '<a-;>  '
-    set window indentwidth 2
-	set window lintcmd %{format-eslint}
-    hook buffer BufWritePre .* %{format-eslint}
 }
 
 hook global WinSetOption filetype=terraform %{
@@ -129,6 +55,7 @@ hook global WinSetOption filetype=terraform %{
 }
 
 hook global WinSetOption filetype=sh %{
+    source "%val{config}/shellcheck.kak"
     set window formatcmd 'shfmt'
     hook buffer BufWritePre .* %{format}
 }
@@ -147,15 +74,7 @@ hook global WinSetOption filetype=yaml %{
     map window insert <s-tab> '<a-;>  '
     map window insert <tab> '<a-;>  '
     set window indentwidth 2
-    set window formatcmd 'yq read -d"*" -'
-}
-
-hook global WinSetOption filetype=java %{
-	map -docstring "println" window user P 'iSystem.out.println("");<esc>'
-	map -docstring "printf" window user F 'iSystem.out.printf("");<esc>'
-
-	set window formatcmd 'java -jar /home/aghani/.local/lib/google-java-format-1.9-all-deps.jar -a -'
-	hook buffer BufWritePre .* %{format}
+    # set window formatcmd 'yq read -d"*" -'
 }
 
 hook global WinSetOption filetype=latex %{
@@ -187,6 +106,3 @@ map global normal '#' ':comment-line<ret>'
 map -docstring 'split vertically' global user d ':tmux-terminal-horizontal kak -c %val{session}<ret>'
 map -docstring 'split horizontally' global user D ':tmux-terminal-vertical kak -c %val{session}<ret>'
 map -docstring "kaktree" global user k ':kaktree-toggle<ret>'
-
-map global normal <space> ,
-map global normal , <space>
