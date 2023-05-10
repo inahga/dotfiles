@@ -197,17 +197,33 @@
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
 
-  fonts.fonts = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    dejavu_fonts
-    font-awesome
-  ];
+  fonts = {
+    enableDefaultFonts = true;
+    fonts = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code
+      fira-code-symbols
+      mplus-outline-fonts.githubRelease
+      dina-font
+      proggyfonts
+      dejavu_fonts
+      font-awesome
+    ];
+    fontconfig = {
+      localConf = ''
+        <fontconfig>
+          <alias>
+            <family>monospace</family>
+            <prefer>
+              <family>DejaVu Sans Mono</family>
+              <family>Noto Color Emoji</family>
+             </prefer>
+          </alias>
+        </fontconfig>
+      '';
+    };
+  };
 }
