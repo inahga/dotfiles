@@ -78,6 +78,7 @@
     alacritty
     ansible
     awscli2
+    bc
     bind
     brightnessctl
     chromium
@@ -136,6 +137,7 @@
     powertop
     psmisc
     pstree
+    python3
     ripgrep
     river
     rsync
@@ -171,6 +173,7 @@
   ];
 
   programs.sway.enable = true;
+  programs.ssh.startAgent = true;
 
   # Set up firefox for wayland usage
   programs.firefox = {

@@ -16,6 +16,7 @@ in {
       gc = "git checkout";
       tf = "terraform";
       p = "podman";
+      ssh-add = "ssh-add -t 1800";
     };
 
     services.mpris-proxy.enable = true;
@@ -30,6 +31,7 @@ in {
     programs.bash = {
       enable = true;
       bashrcExtra = ''
+        export PATH="$PATH:$HOME/go/bin"
         if [ -e ~/.git-prompt ]; then
             source ~/.git-prompt
         fi
