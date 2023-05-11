@@ -9,8 +9,10 @@
     ];
   };
 
-  boot = {
-    loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 10;
+    consoleMode = "0";
   };
 
   swapDevices = [{

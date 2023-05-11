@@ -2,13 +2,16 @@
 let
   home-manager = builtins.fetchTarball
     "https://github.com/nix-community/home-manager/archive/master.tar.gz";
-in {
+in
+{
   imports = [ (import "${home-manager}/nixos") ];
 
   home-manager.users.inahga = {
     home.stateVersion = "22.11";
 
     home.shellAliases = {
+      ll = "ls -alh";
+      l = "ls -l";
       fzf = "fzf --reverse";
       k = "kubectl";
       d = "docker";
@@ -31,6 +34,15 @@ in {
     programs.bash = {
       enable = true;
       bashrcExtra = ''
+        shopt -s histappend
+        shopt -s cmdhist
+        export HISTFILESIZE=16777216
+        export HISTSIZE=16777216
+        export HISTCONTROL=ignoreboth
+        export HISTIGNORE='ls:bg:fg:history:l:ll:cd'
+        export PROMPT_COMMAND='history -a; history -c; history -r'
+        export HISTTIMEFORMAT='%F %T '
+
         export PATH="$PATH:$HOME/go/bin"
         if [ -e ~/.git-prompt ]; then
             source ~/.git-prompt

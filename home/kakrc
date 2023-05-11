@@ -46,6 +46,13 @@ hook global WinSetOption filetype=go %{
     }
 }
 
+hook global WinSetOption filetype=nix %{
+	set-option window formatcmd 'nixpkgs-fmt'
+    hook buffer BufWritePre .* %{
+	    format
+    }
+}
+
 hook global WinSetOption filetype=terraform %{
     set window formatcmd 'terraform fmt -'
     map window insert <s-tab> '<a-;>   '
