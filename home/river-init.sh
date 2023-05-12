@@ -8,8 +8,8 @@ export QT_SCALE_FACTOR="2.0"
 
 set_background() {
 	riverctl background-color 0x000000
-	riverctl border-color-focused 0x93a1a1
-	riverctl border-color-unfocused 0x000000
+	riverctl border-color-unfocused 0x93a1a1
+	riverctl border-color-focused 0x000000
 	swaybg -m fill -i "$(fd jpg "$HOME/Pictures/wallpapers" | shuf | head -n1)" &
 }
 
@@ -29,8 +29,9 @@ set_environment() {
 	# riverctl csd-filter-add app-id "gedit" # apps that should use client-side decorations
 
 	# Configure preferred touchpad stuff.
-	# riverctl input "pointer-2-7-SynPS/2_Synaptics_TouchPad" tap enabled
-	# riverctl input "pointer-2-7-SynPS/2_Synaptics_TouchPad" pointer-accel 0.3
+	riverctl input "pointer-1267-12693-ELAN0678:00_04F3:3195_Touchpad" tap enabled
+	riverctl input "pointer-1267-12693-ELAN0678:00_04F3:3195_Touchpad" drag enabled
+	riverctl input "pointer-1267-12693-ELAN0678:00_04F3:3195_Touchpad" pointer-accel 0.4
 	riverctl xcursor-theme $XCURSOR_THEME $XCURSOR_SIZE
 }
 
@@ -118,9 +119,14 @@ set_bindings() {
 }
 
 spawn_daemons() {
-	swayidle -w timeout 1800 'swaylock -f' | sed -e 's/^/swayidle: /' & # idle timeout daemon
-	sleep 0.1 && kanshi 2>&1 | sed -e 's/^/kanshi: /' &                 # display management daemon
-	sleep 0.1 && mako 2>&1 | sed -e 's/^/mako: /' &                     # notification daemone
+	swayidle -w \
+		timeout 900 'swaylock -f' \
+		timeout 905 'wlopm --off *' \
+		resume 'wlopm --on' \
+		before-sleep 'swaylock -f' |
+		sed -e 's/^/swayidle: /' &                         # idle timeout daemon
+	sleep 0.1 && kanshi 2>&1 | sed -e 's/^/kanshi: /' & # display management daemon
+	sleep 0.1 && mako 2>&1 | sed -e 's/^/mako: /' &     # notification daemone
 }
 
 spawn_waybar() {

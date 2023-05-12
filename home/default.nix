@@ -113,6 +113,7 @@ in
       XKB_DEFAULT_OPTIONS = "caps:escape";
       EDITOR = "kak";
       QT_SCALE_FACTOR = "2.0";
+      NIX_SHELL_PRESERVE_PROMPT = 1;
     };
 
     xdg.configFile."river/init" = {
@@ -126,6 +127,7 @@ in
     xdg.configFile."kanshi/config".source = ./kanshi-config;
     xdg.configFile."waybar/config".source = ./waybar-config;
     xdg.configFile."waybar/style.css".source = ./waybar-style.css;
+    xdg.configFile."swaylock/config".source = ./swaylock-config;
     home.file.".tmux.conf".source = ./tmux.conf;
     home.file.".vimrc".source = ./vimrc;
     home.file.".git-prompt".source = ./git-prompt.sh;

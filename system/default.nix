@@ -76,6 +76,8 @@
   };
 
   environment.defaultPackages = with pkgs; [
+    _1password-gui
+    _1password
     acpi
     alacritty
     ansible
@@ -95,12 +97,14 @@
     entr
     evince
     fd
+    file
     firefox-wayland
     flow
     fuzzel
     fwts
     fzf
     gcc
+    gh
     git
     git-crypt
     go
@@ -122,6 +126,7 @@
     libreoffice
     libuuid
     lm_sensors
+    lsof
     lvm2
     mako
     moreutils
@@ -143,6 +148,7 @@
     ripgrep
     river
     rsync
+    rustup
     shellcheck
     shfmt
     signal-desktop
@@ -167,6 +173,7 @@
     webcamoid
     wget
     wl-clipboard
+    wlopm
     xdg-desktop-portal
     xterm
     yubikey-manager
