@@ -5,6 +5,7 @@ in {
   networking.hostName = hostName;
 
   boot.kernelParams = [ "acpi_backlight=native" ];
+  services.tlp.enable = true;
 
   imports = [ ../../system ../../home ./amd.nix ./hardware-configuration.nix ];
 }

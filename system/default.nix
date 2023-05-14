@@ -56,7 +56,6 @@
   services.dbus.enable = true;
   services.flatpak.enable = true;
   services.blueman.enable = true;
-  services.tlp.enable = true;
   services.fwupd.enable = true;
   services.pcscd.enable = true;
   services.pipewire = {
