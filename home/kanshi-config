@@ -1,3 +1,10 @@
+# Laptop
 profile {
 	output eDP-1 enable scale 1.0
+}
+
+# Desktop
+profile {
+	output "GIGA-BYTE TECHNOLOGY CO., LTD. Gigabyte M32U 21261B003268" enable mode 3840x2160@143.998993Hz position 0,0
+	output "Dell Inc. DELL U3219Q 8BWL413" enable mode 3840x2160@60Hz position 3840,0
 }

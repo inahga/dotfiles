@@ -173,6 +173,7 @@
     webcamoid
     wget
     wl-clipboard
+    wlr-randr
     wlopm
     xdg-desktop-portal
     xterm
