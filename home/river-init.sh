@@ -121,7 +121,7 @@ set_bindings() {
 spawn_daemons() {
 	swayidle -w \
 		timeout 900 'swaylock -f' \
-		timeout 905 'wlopm --off *' \
+		timeout 905 'wlopm --off "*"' \
 		resume 'wlopm --on' \
 		before-sleep 'swaylock -f' |
 		sed -e 's/^/swayidle: /' &                         # idle timeout daemon
