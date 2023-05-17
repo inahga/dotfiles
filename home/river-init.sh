@@ -7,9 +7,11 @@ export XCURSOR_THEME=Numix-Cursor-Light
 if [ $HIDPI == "1" ]; then
 	export XCURSOR_SIZE=48
 	export QT_SCALE_FACTOR="2.0"
+	PADDING=3
 else
 	export XCURSOR_SIZE=24
 	export QT_SCALE_FACTOR="1.0"
+	PADDING=1
 fi
 
 set_background() {
@@ -148,4 +150,4 @@ spawn_daemons
 # Set and exec into the default layout generator, rivertile.
 # River will send the process group of the init executable SIGTERM on exit.
 riverctl default-layout rivertile
-exec rivertile -view-padding 3 -outer-padding 3
+exec rivertile -view-padding $PADDING -outer-padding $PADDING
