@@ -1,166 +1,178 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
+with lib;
 let
   home-manager = builtins.fetchTarball
     "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  cfg = config.custom;
 in
 {
   imports = [ (import "${home-manager}/nixos") ];
 
-  home-manager.users.inahga = {
-    home.stateVersion = "22.11";
+  options.custom.hidpi = mkOption {
+    default = true;
+    type = types.bool;
+  };
 
-    home.shellAliases = {
-      ll = "ls -alh";
-      l = "ls -l";
-      fzf = "fzf --reverse";
-      k = "kubectl";
-      d = "docker";
-      gs = "git status";
-      gc = "git checkout";
-      tf = "terraform";
-      p = "podman";
-      ssh-add = "ssh-add -t 1800";
-    };
+  config = {
+    home-manager.users.inahga = {
+      home.stateVersion = "22.11";
 
-    services.mpris-proxy.enable = true;
-
-    programs.git = {
-      enable = true;
-      userName = "Ameer Ghani";
-      userEmail = "inahga@gmail.com";
-      ignores = [ "aghani*" "inahga*" ];
-    };
-
-    programs.bash = {
-      enable = true;
-      bashrcExtra = ''
-        shopt -s histappend
-        shopt -s cmdhist
-        export HISTFILESIZE=16777216
-        export HISTSIZE=16777216
-        export HISTCONTROL=ignoreboth
-        export HISTIGNORE='ls:bg:fg:history:l:ll:cd'
-        export PROMPT_COMMAND='history -a; history -c; history -r'
-        export HISTTIMEFORMAT='%F %T '
-
-        export PATH="$PATH:$HOME/go/bin"
-        if [ -e ~/.git-prompt ]; then
-            source ~/.git-prompt
-        fi
-
-        export GLADMOJI="😀😅😆😄😃😇😉😊🙂😋😍😘😜😝😛😎😏😻😺🙌💪👌🌞🔥👍💕💯✅🆒🆗💲"
-        export SADMOJI="😶😳😠😞😡😕😣😖😫😩😮😱😨😰😯😦😢😥😥😵😭😴😷💀😿👎🙊💥🔪💔🆘⛔🚫❌🚷❓❗"
-        export PROMPT_DIRTRIM=3
-        export PS1="\n\e[36m\u@\h\[\e[0m\] \
-        \$(if [ \$? == 0 ]; then echo -n \"\''${GLADMOJI:RANDOM%\''${#GLADMOJI}:1}\"; \
-        else echo -n \"\''${SADMOJI:RANDOM%\''${#SADMOJI}:1}\"; fi)\
-        \$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \w\n🐧 "
-
-        DEFAULT_TMUX="base"
-        if [ -z "$TMUX" ]; then
-            if tmux ls |& grep $DEFAULT_TMUX >/dev/null 2>&1; then
-                tmux attach -t $DEFAULT_TMUX
-            else
-                tmux new-session -t $DEFAULT_TMUX
-            fi
-        fi
-
-        gocover() {
-            FILE=''${1:-coverage.out}
-            go test -coverprofile "$FILE"
-            go tool cover -html="$FILE"
-        }
-
-        if [ "$(uname -s)" == "Linux" ]; then
-            alias open='xdg-open'
-        fi
-
-        alias kakoune='command kak'
-        kak() {
-            GITREPO=$(git rev-parse --show-toplevel 2>/dev/null)
-            SESSION=general
-            if [ -n "$GITREPO" ]; then
-                SESSION=$(echo "$GITREPO" | md5sum | head -c6)
-            fi
-
-            if command kak -l | grep -q "$SESSION"; then
-                command kak -c "$SESSION" "$@"
-            else
-                command kak -s "$SESSION" "$@"
-            fi
-        }
-
-        alacritty-x11() {
-            WINIT_UNIX_BACKEND=x11 alacritty "$@"
-        }
-
-        # alacritty pinebook pro fix
-        # https://github.com/alacritty/alacritty/issues/128#issuecomment-663927477
-        if [ "$(uname -m)" == "aarch64" ]; then
-            export PAN_MESA_DEBUG=gl3
-        fi
-      '';
-      initExtra = ''
-        export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
-      '';
-    };
-
-    programs.firefox = { enable = true; };
-
-    home.sessionVariables = {
-      MOZ_ENABLE_WAYLAND = 1;
-      XDG_CURRENT_DESKTOP = "river";
-      XKB_DEFAULT_OPTIONS = "caps:escape";
-      EDITOR = "kak";
-      QT_SCALE_FACTOR = "2.0";
-      NIX_SHELL_PRESERVE_PROMPT = 1;
-    };
-
-    xdg.configFile."river/init" = {
-      source = ./river-init.sh;
-      executable = true;
-    };
-    xdg.configFile."kak/kakrc".source = ./kakrc;
-    xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
-    xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
-    xdg.configFile."alacritty/alacritty.yml".source = ./alacritty.yml;
-    xdg.configFile."kanshi/config".source = ./kanshi-config;
-    xdg.configFile."waybar/config".source = ./waybar-config;
-    xdg.configFile."waybar/style.css".source = ./waybar-style.css;
-    xdg.configFile."swaylock/config".source = ./swaylock-config;
-    home.file.".tmux.conf".source = ./tmux.conf;
-    home.file.".vimrc".source = ./vimrc;
-    home.file.".git-prompt".source = ./git-prompt.sh;
-
-    gtk = {
-      enable = true;
-      theme = {
-        name = "Materia-dark";
-        package = pkgs.materia-theme;
+      home.shellAliases = {
+        ll = "ls -alh";
+        l = "ls -l";
+        fzf = "fzf --reverse";
+        k = "kubectl";
+        d = "docker";
+        gs = "git status";
+        gc = "git checkout";
+        tf = "terraform";
+        p = "podman";
+        ssh-add = "ssh-add -t 1800";
       };
-      iconTheme = {
-        name = "BeautyLine";
-        package = pkgs.beauty-line-icon-theme;
+
+      services.mpris-proxy.enable = true;
+
+      programs.git = {
+        enable = true;
+        userName = "Ameer Ghani";
+        userEmail = "inahga@gmail.com";
+        ignores = [ "aghani*" "inahga*" ];
+      };
+
+      programs.bash = {
+        enable = true;
+        bashrcExtra = ''
+          shopt -s histappend
+          shopt -s cmdhist
+          export HISTFILESIZE=16777216
+          export HISTSIZE=16777216
+          export HISTCONTROL=ignoreboth
+          export HISTIGNORE='ls:bg:fg:history:l:ll:cd'
+          export PROMPT_COMMAND='history -a; history -c; history -r'
+          export HISTTIMEFORMAT='%F %T '
+
+          export PATH="$PATH:$HOME/go/bin"
+          if [ -e ~/.git-prompt ]; then
+              source ~/.git-prompt
+          fi
+
+          export GLADMOJI="😀😅😆😄😃😇😉😊🙂😋😍😘😜😝😛😎😏😻😺🙌💪👌🌞🔥👍💕💯✅🆒🆗💲"
+          export SADMOJI="😶😳😠😞😡😕😣😖😫😩😮😱😨😰😯😦😢😥😥😵😭😴😷💀😿👎🙊💥🔪💔🆘⛔🚫❌🚷❓❗"
+          export PROMPT_DIRTRIM=3
+          export PS1="\n\e[36m\u@\h\[\e[0m\] \
+          \$(if [ \$? == 0 ]; then echo -n \"\''${GLADMOJI:RANDOM%\''${#GLADMOJI}:1}\"; \
+          else echo -n \"\''${SADMOJI:RANDOM%\''${#SADMOJI}:1}\"; fi)\
+          \$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \w\n🐧 "
+
+          DEFAULT_TMUX="base"
+          if [ -z "$TMUX" ]; then
+              if tmux ls |& grep $DEFAULT_TMUX >/dev/null 2>&1; then
+                  tmux attach -t $DEFAULT_TMUX
+              else
+                  tmux new-session -t $DEFAULT_TMUX
+              fi
+          fi
+
+          gocover() {
+              FILE=''${1:-coverage.out}
+              go test -coverprofile "$FILE"
+              go tool cover -html="$FILE"
+          }
+
+          if [ "$(uname -s)" == "Linux" ]; then
+              alias open='xdg-open'
+          fi
+
+          alias kakoune='command kak'
+          kak() {
+              GITREPO=$(git rev-parse --show-toplevel 2>/dev/null)
+              SESSION=general
+              if [ -n "$GITREPO" ]; then
+                  SESSION=$(echo "$GITREPO" | md5sum | head -c6)
+              fi
+
+              if command kak -l | grep -q "$SESSION"; then
+                  command kak -c "$SESSION" "$@"
+              else
+                  command kak -s "$SESSION" "$@"
+              fi
+          }
+
+          alacritty-x11() {
+              WINIT_UNIX_BACKEND=x11 alacritty "$@"
+          }
+
+          # alacritty pinebook pro fix
+          # https://github.com/alacritty/alacritty/issues/128#issuecomment-663927477
+          if [ "$(uname -m)" == "aarch64" ]; then
+              export PAN_MESA_DEBUG=gl3
+          fi
+        '';
+        initExtra = ''
+          export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
+        '';
+      };
+
+      programs.firefox = { enable = true; };
+
+      home.sessionVariables = {
+        MOZ_ENABLE_WAYLAND = 1;
+        XDG_CURRENT_DESKTOP = "river";
+        XKB_DEFAULT_OPTIONS = "caps:escape";
+        EDITOR = "kak";
+        NIX_SHELL_PRESERVE_PROMPT = 1;
+        HIDPI = if cfg.hidpi then 1 else 0;
+        QT_SCALE_FACTOR = if cfg.hidpi then "2.0" else "1.0";
+      };
+
+      xdg.configFile."river/init" = {
+        source = ./river-init.sh;
+        executable = true;
+      };
+      xdg.configFile."kak/kakrc".source = ./kakrc;
+      xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
+      xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
+      xdg.configFile."alacritty/alacritty.yml".source = with pkgs; substituteAll {
+        src = ./alacritty.yml; inherit bash; fontSize = if cfg.hidpi then 24 else 16;
+      };
+      xdg.configFile."kanshi/config".source = ./kanshi-config;
+      xdg.configFile."waybar/config".source = ./waybar-config;
+      xdg.configFile."waybar/style.css".source = with pkgs; substituteAll {
+        src = ./waybar-style.css; inherit bash; fontSize = if cfg.hidpi then 28 else 16;
+      };
+      xdg.configFile."swaylock/config".source = ./swaylock-config;
+      home.file.".tmux.conf".source = ./tmux.conf;
+      home.file.".vimrc".source = ./vimrc;
+      home.file.".git-prompt".source = ./git-prompt.sh;
+
+      gtk = {
+        enable = true;
+        theme = {
+          name = "Materia-dark";
+          package = pkgs.materia-theme;
+        };
+        iconTheme = {
+          name = "BeautyLine";
+          package = pkgs.beauty-line-icon-theme;
+        };
+      };
+
+      dconf.settings = {
+        "org/gnome/desktop/interface" = {
+          #color-scheme = "prefer-dark";
+          #cursor-theme = "Numix-Cursor-Light";
+          cursor-size = if cfg.hidpi then 48 else 24;
+          text-scaling-factor = if cfg.hidpi then 1.5 else 1.0;
+        };
+      };
+
+      home.pointerCursor = {
+        package = pkgs.numix-cursor-theme;
+        name = "Numix-Cursor-Light";
+        size = if cfg.hidpi then 48 else 24;
+        x11.enable = true;
+        gtk.enable = true;
       };
     };
-
-    dconf.settings = {
-      "org/gnome/desktop/interface" = {
-        #color-scheme = "prefer-dark";
-        #cursor-theme = "Numix-Cursor-Light";
-        cursor-size = 48;
-        text-scaling-factor = 1.5;
-      };
-    };
-
-    home.pointerCursor = {
-      package = pkgs.numix-cursor-theme;
-      name = "Numix-Cursor-Light";
-      size = 48;
-      x11.enable = true;
-      gtk.enable = true;
-    };
-
-    # better fuzzel theme
   };
 }

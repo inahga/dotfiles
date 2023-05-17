@@ -3,8 +3,14 @@
 
 export XDG_CURRENT_DESKTOP=river
 export XCURSOR_THEME=Numix-Cursor-Light
-export XCURSOR_SIZE=48
-export QT_SCALE_FACTOR="2.0"
+
+if [ $HIDPI == "1" ]; then
+	export XCURSOR_SIZE=48
+	export QT_SCALE_FACTOR="2.0"
+else
+	export XCURSOR_SIZE=24
+	export QT_SCALE_FACTOR="1.0"
+fi
 
 set_background() {
 	riverctl background-color 0x000000

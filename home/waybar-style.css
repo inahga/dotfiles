@@ -27,7 +27,7 @@ SOFTWARE.
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, monospace;
-    font-size: 28px;
+    font-size: @fontSize@px;
 }
 
 window#waybar {
