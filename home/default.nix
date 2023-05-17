@@ -107,6 +107,10 @@ in
           if [ "$(uname -m)" == "aarch64" ]; then
               export PAN_MESA_DEBUG=gl3
           fi
+
+          if [ -e "$HOME/.bashrc-custom" ]; then
+              source "$HOME/.bashrc-custom"
+          fi
         '';
         initExtra = ''
           export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
