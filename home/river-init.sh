@@ -40,6 +40,7 @@ set_environment() {
 	riverctl input "pointer-1267-12693-ELAN0678:00_04F3:3195_Touchpad" tap enabled
 	riverctl input "pointer-1267-12693-ELAN0678:00_04F3:3195_Touchpad" drag enabled
 	riverctl input "pointer-1267-12693-ELAN0678:00_04F3:3195_Touchpad" pointer-accel 0.4
+	riverctl set-cursor-warp on-output-change
 	riverctl xcursor-theme $XCURSOR_THEME $XCURSOR_SIZE
 }
 
