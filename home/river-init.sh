@@ -129,9 +129,8 @@ set_bindings() {
 
 spawn_daemons() {
 	swayidle -w \
-		timeout 900 'swaylock -f' \
-		timeout 905 'wlopm --off "*"' \
-		resume 'wlopm --on "*"' \
+		timeout 300 'swaylock -f' \
+		timeout 900 'systemctl suspend' \
 		before-sleep 'swaylock -f' |
 		sed -e 's/^/swayidle: /' &                         # idle timeout daemon
 	sleep 0.1 && kanshi 2>&1 | sed -e 's/^/kanshi: /' & # display management daemon
