@@ -137,7 +137,7 @@ in
       xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
       xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
       xdg.configFile."alacritty/alacritty.yml".source = with pkgs; substituteAll {
-        src = ./alacritty.yml; inherit bash; fontSize = if cfg.hidpi then 24 else 16;
+        src = ./alacritty.yml; inherit bash; fontSize = if cfg.hidpi then 28 else 16;
       };
       xdg.configFile."kanshi/config".source = ./kanshi-config;
       xdg.configFile."waybar/config".source = ./waybar-config;

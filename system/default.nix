@@ -12,7 +12,6 @@
   boot.loader.systemd-boot = {
     enable = true;
     configurationLimit = 10;
-    consoleMode = "0";
   };
 
   swapDevices = [{
@@ -25,6 +24,8 @@
   systemd.services.NetworkManager-wait-online.enable = false;
 
   networking.networkmanager.enable = true;
+  networking.firewall.enable = true;
+  networking.nftables.enable = true;
   networking.useDHCP = lib.mkDefault true;
   hardware.bluetooth = {
     enable = true;
