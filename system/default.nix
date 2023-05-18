@@ -59,6 +59,8 @@
   services.blueman.enable = true;
   services.fwupd.enable = true;
   services.pcscd.enable = true;
+  services.gvfs.enable = true; # Mount, trash, SMB, other things...
+  services.tumbler.enable = true; # Image thumbnail service.
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -176,6 +178,8 @@
     wlr-randr
     wlopm
     xdg-desktop-portal
+    xdg-utils
+    xfce.thunar
     xterm
     yubikey-manager
     zip
@@ -192,6 +196,7 @@
     };
   };
 
+  # Make screen sharing work.
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
@@ -222,6 +227,7 @@
       font-awesome
     ];
     fontconfig = {
+      # Let better emojis coexist with the regular mono font.
       localConf = ''
         <fontconfig>
           <alias>
