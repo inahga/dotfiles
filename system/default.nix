@@ -109,6 +109,7 @@
     gh
     git
     git-crypt
+    glow
     go
     gopls
     gotools
@@ -138,6 +139,7 @@
     numix-cursor-theme
     obs-studio
     pamixer
+    pandoc
     pavucontrol
     pass
     peek
