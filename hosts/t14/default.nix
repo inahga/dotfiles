@@ -7,5 +7,7 @@ in {
   boot.kernelParams = [ "acpi_backlight=native" ];
   services.tlp.enable = true;
 
+  custom.email = "inahga@divviup.org";
+
   imports = [ ../../system ../../home ./amd.nix ./hardware-configuration.nix ];
 }

@@ -12,6 +12,10 @@ in
     default = true;
     type = types.bool;
   };
+  options.custom.email = mkOption {
+    default = "inahga@gmail.com";
+    type = types.str;
+  };
 
   config = {
     home-manager.users.inahga = {
@@ -35,8 +39,22 @@ in
       programs.git = {
         enable = true;
         userName = "Ameer Ghani";
-        userEmail = "inahga@gmail.com";
+        userEmail = cfg.email;
         ignores = [ "aghani*" "inahga*" ];
+        extraConfig = {
+          commit = {
+            gpgsign = true;
+          };
+          gpg = {
+            format = "ssh";
+            ssh = {
+              defaultKeyCommand = ''
+                env bash -c "ssh-add -L | head -n1 | sed 's/^/key::/'"
+              '';
+              allowedSignersFile = "/home/inahga/.config/git/allowed_signers";
+            };
+          };
+        };
       };
 
       programs.bash = {
@@ -135,6 +153,7 @@ in
       };
       xdg.configFile."kak/kakrc".source = ./kakrc;
       xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
+      xdg.configFile."git/allowed_signers".source = ./allowed_signers;
       xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
       xdg.configFile."alacritty/alacritty.yml".source = with pkgs; substituteAll {
         src = ./alacritty.yml; inherit bash; fontSize = if cfg.hidpi then 28 else 16;
