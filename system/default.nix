@@ -114,6 +114,7 @@
     gopls
     gotools
     grim
+    grpc-tools
     htop
     jq
     k9s
@@ -136,6 +137,7 @@
     mutt
     nixpkgs-fmt
     nix-tree
+    nodejs
     numix-cursor-theme
     obs-studio
     pamixer
