@@ -78,8 +78,8 @@
   };
 
   environment.defaultPackages = with pkgs; [
-    _1password-gui
     _1password
+    _1password-gui
     acpi
     alacritty
     ansible
@@ -134,14 +134,14 @@
     mako
     moreutils
     mutt
-    nix-tree
     nixpkgs-fmt
+    nix-tree
     numix-cursor-theme
     obs-studio
     pamixer
     pandoc
-    pavucontrol
     pass
+    pavucontrol
     peek
     pgcli
     playerctl
@@ -176,18 +176,22 @@
     waybar
     webcamoid
     wget
+    (with google-cloud-sdk; (withExtraComponents [ components.gke-gcloud-auth-plugin ]))
     wl-clipboard
-    wlr-randr
     wlopm
+    wlr-randr
     xdg-desktop-portal
     xdg-utils
     xfce.thunar
     xterm
+    yq
     yubikey-manager
     zip
   ];
 
-  programs.sway.enable = true;
+
+  programs.sway.enable =
+    true;
   programs.ssh.startAgent = true;
 
   # Set up firefox for wayland usage
