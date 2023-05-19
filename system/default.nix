@@ -36,7 +36,7 @@
 
   users.users.inahga = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "libvirtd" ];
+    extraGroups = [ "wheel" "networkmanager" "libvirtd" "docker" ];
     initialPassword = "password";
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJBN1uV3RK41ghFQLYqNTVXUVALbn3KDr3E8HCxk7zC8AAAAEXNzaDp5dWJpa2V5LXNtYWxs"
@@ -192,8 +192,7 @@
   ];
 
 
-  programs.sway.enable =
-    true;
+  programs.sway.enable = true;
   programs.ssh.startAgent = true;
 
   # Set up firefox for wayland usage
@@ -210,9 +209,9 @@
     extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
   };
 
+  virtualisation.docker.enable = true;
   virtualisation.podman = {
     enable = true;
-    dockerCompat = true;
     defaultNetwork.settings.dns_enabled = true;
   };
 
