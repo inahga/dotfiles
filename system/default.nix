@@ -110,6 +110,7 @@
     git
     git-crypt
     glow
+    gnupg
     go
     gopls
     gotools
@@ -147,6 +148,7 @@
     peek
     pgcli
     playerctl
+    pinentry
     powertop
     psmisc
     pstree
@@ -188,12 +190,17 @@
     xterm
     yq
     yubikey-manager
+    yubioath-flutter
     zip
   ];
 
 
   programs.sway.enable = true;
-  programs.ssh.startAgent = true;
+
+  programs.ssh = {
+    startAgent = true;
+    enableAskPassword = true;
+  };
 
   # Set up firefox for wayland usage
   programs.firefox = {

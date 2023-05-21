@@ -36,6 +36,11 @@ in
 
       services.mpris-proxy.enable = true;
 
+      services.gpg-agent = {
+        enable = true;
+        pinentryFlavor = "tty";
+      };
+
       programs.git = {
         enable = true;
         userName = "Ameer Ghani";
