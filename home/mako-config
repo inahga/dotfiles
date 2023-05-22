@@ -1,0 +1,4 @@
+font=monospace @fontSize@
+width=@width@
+height=@height@
+layer=overlay

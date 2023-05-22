@@ -158,6 +158,14 @@ in
         executable = true;
       };
       xdg.configFile."kak/kakrc".source = ./kakrc;
+      xdg.configFile."mako/config".source = with pkgs;
+        substituteAll {
+          src = ./mako-config;
+          inherit bash;
+          fontSize = if cfg.hidpi then 24 else 12;
+          width = if cfg.hidpi then 600 else 300;
+          height = if cfg.hidpi then 300 else 100;
+        };
       xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
       xdg.configFile."git/allowed_signers".source = ./allowed_signers;
       xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;

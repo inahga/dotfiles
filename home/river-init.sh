@@ -46,6 +46,7 @@ set_environment() {
 
 set_bindings() {
 	riverctl map normal Super Space spawn fuzzel               # start launcher
+	riverctl map normal Super D spawn "makoctl dismiss"        # dismiss notifications
 	riverctl map normal Super Q close                          # close current view
 	riverctl map normal Super+Shift E exit                     # exit river
 	riverctl map normal Control+Alt Delete spawn "swaylock -f" # lock screen
