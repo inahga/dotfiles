@@ -92,6 +92,7 @@
     cobang
     coreutils
     curl
+    delve
     dig
     direnv
     discord
@@ -107,6 +108,7 @@
     fwts
     fzf
     gcc
+    gdb
     gh
     git
     git-crypt
