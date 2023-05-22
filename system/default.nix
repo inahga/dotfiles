@@ -93,6 +93,7 @@
     coreutils
     curl
     dig
+    direnv
     discord
     distrobox
     drawio
@@ -136,11 +137,13 @@
     mako
     moreutils
     mutt
+    netcat
     nixpkgs-fmt
     nix-tree
     nodejs
     numix-cursor-theme
     obs-studio
+    openssl
     pamixer
     pandoc
     pass
