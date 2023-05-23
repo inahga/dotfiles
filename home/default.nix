@@ -59,6 +59,9 @@ in
               allowedSignersFile = "/home/inahga/.config/git/allowed_signers";
             };
           };
+          push = {
+            autoSetupRemote = true;
+          };
         };
       };
 
