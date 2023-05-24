@@ -12,7 +12,7 @@ set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust|terraform) %{
 	lsp-enable-window
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false

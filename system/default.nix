@@ -113,6 +113,7 @@
     git
     git-crypt
     glow
+    gnumake
     gnupg
     go
     gopls
@@ -173,6 +174,7 @@
     swayidle
     swaylock
     terraform
+    terraform-ls
     tmux
     tree
     unzip
