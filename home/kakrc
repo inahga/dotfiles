@@ -12,7 +12,7 @@ set global autoreload true
 set global tabstop 4
 set global indentwidth 0
 
-hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust|terraform) %{
+hook global WinSetOption filetype=(go|c|cpp|java|python|javascript|typescript|rust) %{
 	lsp-enable-window
     set-option window lsp_auto_highlight_references true
     set-option window lsp_hover_anchor false
@@ -29,11 +29,13 @@ map -docstring "lsp rename" global user r ':lsp-rename-prompt<ret>'
 
 hook global KakEnd .* lsp-exit
 
-define-command -override -hidden lsp-show-error -params 1 -docstring "Render error (suppress useless gopls errors)" %{
+define-command -override -hidden lsp-show-error -params 1 -docstring "Render error (suppress useless lsp errors)" %{
     evaluate-commands %sh{
+	    # useless gopls error
         if [ "$1" = "go language server error: 'no object found'" ]; then
             exit 0
         fi
+
         echo 'echo -debug "kak-lsp:" %arg{1}'
         echo 'info %arg{1}'
     }
