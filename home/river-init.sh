@@ -93,8 +93,9 @@ set_bindings() {
 	riverctl map normal Super 0 set-focused-tags $all_tags
 	riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-	riverctl map normal Super F toggle-float
+	riverctl map normal Super+Shift F toggle-float
 	riverctl map normal Super Z toggle-fullscreen
+	riverctl map normal Super F toggle-fullscreen
 
 	# Super+{Up,Right,Down,Left} to change layout orientation
 	riverctl map normal Super Up send-layout-cmd rivertile "main-location top"
