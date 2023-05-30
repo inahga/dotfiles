@@ -152,6 +152,7 @@
     pass
     pavucontrol
     peek
+    perl
     pgcli
     playerctl
     pinentry
