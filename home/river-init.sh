@@ -104,10 +104,10 @@ set_bindings() {
 	riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
 
 	# Configure screenshot shortcuts.
-	riverctl map normal None Print spawn 'grim "$(xdg-user-dir PICTURES)"/"$(date +"%s_grim.png")"'
-	riverctl map normal Control Print spawn 'grim -g "$(slurp)" "$(xdg-user-dir PICTURES)"/"$(date +"%s_grim.png")"'
-	riverctl map normal Shift Print spawn 'grim - | wl-copy'
-	riverctl map normal Shift+Control Print spawn 'grim -g "$(slurp)" - | wl-copy'
+	riverctl map normal Shift Print spawn 'grim "$(xdg-user-dir PICTURES)"/"$(date +"%s_grim.png")"'
+	riverctl map normal Shift+Control Print spawn 'grim -g "$(slurp)" "$(xdg-user-dir PICTURES)"/"$(date +"%s_grim.png")"'
+	riverctl map normal None Print spawn 'grim - | wl-copy'
+	riverctl map normal Control Print spawn 'grim -g "$(slurp)" - | wl-copy'
 
 	# Declare a passthrough mode. This mode has only a single mapping to return to
 	# normal mode. This makes it useful for testing a nested wayland compositor
