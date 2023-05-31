@@ -156,6 +156,7 @@
     pgcli
     playerctl
     pinentry
+    postgresql
     powertop
     psmisc
     pstree
