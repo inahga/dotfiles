@@ -133,7 +133,8 @@ spawn_daemons() {
 	swayidle -w \
 		timeout 300 'swaylock -f' \
 		timeout 900 'systemctl suspend' \
-		before-sleep 'swaylock -f' |
+		before-sleep 'swaylock -f' \
+		before-sleep 'ssh-add -D' |
 		sed -e 's/^/swayidle: /' &                         # idle timeout daemon
 	sleep 0.1 && kanshi 2>&1 | sed -e 's/^/kanshi: /' & # display management daemon
 	sleep 0.1 && mako 2>&1 | sed -e 's/^/mako: /' &     # notification daemone

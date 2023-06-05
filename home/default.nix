@@ -31,7 +31,7 @@ in
         gc = "git checkout";
         tf = "terraform";
         p = "podman";
-        ssh-add = "ssh-add -t 1800";
+        ssh-add = "ssh-add -t 28800";
       };
 
       services.mpris-proxy.enable = true;
