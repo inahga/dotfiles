@@ -1,5 +1,7 @@
 { config, pkgs, lib, ... }: {
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [ (import ../pkgs) ];
+
   nix = {
     settings.auto-optimise-store = true;
     nixPath = with config; [
