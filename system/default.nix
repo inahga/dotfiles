@@ -156,6 +156,7 @@
     pgcli
     playerctl
     pinentry
+    pkg-config
     postgresql
     powertop
     psmisc

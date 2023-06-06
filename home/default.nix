@@ -78,6 +78,7 @@ in
           export HISTTIMEFORMAT='%F %T '
 
           export PATH="$PATH:$HOME/go/bin"
+          export PATH="$PATH:$HOME/.cargo/bin"
           if [ -e ~/.git-prompt ]; then
               source ~/.git-prompt
           fi
