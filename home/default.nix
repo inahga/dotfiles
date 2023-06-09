@@ -86,7 +86,8 @@ in
           export GLADMOJI="😀😅😆😄😃😇😉😊🙂😋😍😘😜😝😛😎😏😻😺🙌💪👌🌞🔥👍💕💯✅🆒🆗💲"
           export SADMOJI="😶😳😠😞😡😕😣😖😫😩😮😱😨😰😯😦😢😥😥😵😭😴😷💀😿👎🙊💥🔪💔🆘⛔🚫❌🚷❓❗"
           export PROMPT_DIRTRIM=3
-          export PS1="\n\e[36m\u@\h\[\e[0m\] \
+          export PS1="\n\[\033[1;31m\]\$(if [ -n \"\$IN_NIX_SHELL\" ]; then echo \"[\$name] \"; fi)\[\033[0m\]\
+          \e[34m\u@\h\[\e[0m\] \
           \$(if [ \$? == 0 ]; then echo -n \"\''${GLADMOJI:RANDOM%\''${#GLADMOJI}:1}\"; \
           else echo -n \"\''${SADMOJI:RANDOM%\''${#SADMOJI}:1}\"; fi)\
           \$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \w\n🐧 "
