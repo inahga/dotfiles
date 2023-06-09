@@ -73,7 +73,7 @@ in
           export HISTFILESIZE=16777216
           export HISTSIZE=16777216
           export HISTCONTROL=ignoreboth
-          export HISTIGNORE='ls:bg:fg:history:l:ll:cd'
+          export HISTIGNORE='ls:bg:fg:history:l:ll:cd:gs'
           export PROMPT_COMMAND='history -a; history -c; history -r'
           export HISTTIMEFORMAT='%F %T '
 
