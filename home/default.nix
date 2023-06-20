@@ -2,7 +2,7 @@
 with lib;
 let
   home-manager = builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+    "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
   cfg = config.custom;
 in
 {
@@ -19,7 +19,7 @@ in
 
   config = {
     home-manager.users.inahga = {
-      home.stateVersion = "22.11";
+      home.stateVersion = "23.05";
 
       home.shellAliases = {
         ll = "ls -alh";
