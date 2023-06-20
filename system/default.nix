@@ -101,7 +101,6 @@
     distrobox
     drawio
     entr
-    envsubst
     evince
     fd
     file
@@ -112,6 +111,7 @@
     fzf
     gcc
     gdb
+    gettext
     gh
     git
     git-crypt
