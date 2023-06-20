@@ -101,6 +101,7 @@
     distrobox
     drawio
     entr
+    envsubst
     evince
     fd
     file
