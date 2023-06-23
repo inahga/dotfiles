@@ -172,6 +172,7 @@ in
           height = if cfg.hidpi then 300 else 100;
         };
       xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
+      xdg.configFile."helix/config.toml".source = ./helix-config.toml;
       xdg.configFile."git/allowed_signers".source = ./allowed_signers;
       xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
       xdg.configFile."alacritty/alacritty.yml".source = with pkgs; substituteAll {

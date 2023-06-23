@@ -123,6 +123,7 @@
     gotools
     grim
     grpc-tools
+    helix
     htop
     jq
     k9s
@@ -142,11 +143,15 @@
     lvm2
     mako
     moreutils
+    marksman
     mutt
     netcat
+    nil
     nixpkgs-fmt
     nix-tree
     nodejs
+    nodePackages.bash-language-server
+    nodePackages.typescript-language-server
     numix-cursor-theme
     obs-studio
     openssl

@@ -1,0 +1,10 @@
+theme = "base16_default"
+
+[editor]
+mouse = false
+
+[editor.file-picker]
+hidden = false
+
+[editor.soft-wrap]
+enable = true
