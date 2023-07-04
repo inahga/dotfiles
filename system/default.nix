@@ -84,6 +84,7 @@
     _1password-gui
     acpi
     alacritty
+    alejandra
     ansible
     awscli2
     bc
@@ -147,7 +148,6 @@
     mutt
     netcat
     nil
-    nixpkgs-fmt
     nix-tree
     nodejs
     nodePackages.bash-language-server

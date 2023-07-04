@@ -1,12 +1,16 @@
-{ lib, config, pkgs, ... }:
-with lib;
-let
-  home-manager = builtins.fetchTarball
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  home-manager =
+    builtins.fetchTarball
     "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
   cfg = config.custom;
-in
-{
-  imports = [ (import "${home-manager}/nixos") ];
+in {
+  imports = [(import "${home-manager}/nixos")];
 
   options.custom.hidpi = mkOption {
     default = true;
@@ -45,7 +49,7 @@ in
         enable = true;
         userName = "Ameer Ghani";
         userEmail = cfg.email;
-        ignores = [ "aghani*" "inahga*" ];
+        ignores = ["aghani*" "inahga*"];
         extraConfig = {
           commit = {
             gpgsign = true;
@@ -145,7 +149,7 @@ in
         '';
       };
 
-      programs.firefox = { enable = true; };
+      programs.firefox = {enable = true;};
       programs.direnv.enable = true;
 
       home.sessionVariables = {
@@ -154,39 +158,79 @@ in
         XKB_DEFAULT_OPTIONS = "caps:escape";
         EDITOR = "kak";
         NIX_SHELL_PRESERVE_PROMPT = 1;
-        HIDPI = if cfg.hidpi then 1 else 0;
-        QT_SCALE_FACTOR = if cfg.hidpi then "2.0" else "1.0";
+        HIDPI =
+          if cfg.hidpi
+          then 1
+          else 0;
+        QT_SCALE_FACTOR =
+          if cfg.hidpi
+          then "2.0"
+          else "1.0";
       };
 
-      xdg.configFile."river/init" = {
-        source = ./river-init.sh;
-        executable = true;
-      };
-      xdg.configFile."kak/kakrc".source = ./kakrc;
-      xdg.configFile."mako/config".source = with pkgs;
-        substituteAll {
-          src = ./mako-config;
-          inherit bash;
-          fontSize = if cfg.hidpi then 24 else 12;
-          width = if cfg.hidpi then 600 else 300;
-          height = if cfg.hidpi then 300 else 100;
+      xdg.configFile = {
+        "river/init" = {
+          source = ./river-init.sh;
+          executable = true;
         };
-      xdg.configFile."kak/shellcheck.kak".source = ./shellcheck.kak;
-      xdg.configFile."helix/config.toml".source = ./helix-config.toml;
-      xdg.configFile."git/allowed_signers".source = ./allowed_signers;
-      xdg.configFile."kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
-      xdg.configFile."alacritty/alacritty.yml".source = with pkgs; substituteAll {
-        src = ./alacritty.yml; inherit bash; fontSize = if cfg.hidpi then 27 else 16;
+
+        "kak/kakrc".source = ./kakrc;
+        "kak/shellcheck.kak".source = ./shellcheck.kak;
+
+        "mako/config".source = with pkgs;
+          substituteAll {
+            src = ./mako-config;
+            inherit bash;
+            fontSize =
+              if cfg.hidpi
+              then 24
+              else 12;
+            width =
+              if cfg.hidpi
+              then 600
+              else 300;
+            height =
+              if cfg.hidpi
+              then 300
+              else 100;
+          };
+
+        "helix/config.toml".source = ./helix-config.toml;
+        "helix/languages.toml".source = ./helix-languages.toml;
+        "helix/themes/inahga.toml".source = ./helix-theme.toml;
+
+        "git/allowed_signers".source = ./allowed_signers;
+        "kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
+        "alacritty/alacritty.yml".source = with pkgs;
+          substituteAll {
+            src = ./alacritty.yml;
+            inherit bash;
+            fontSize =
+              if cfg.hidpi
+              then 27
+              else 16;
+          };
+        "kanshi/config".source = ./kanshi-config;
+
+        "waybar/config".source = ./waybar-config;
+        "waybar/style.css".source = with pkgs;
+          substituteAll {
+            src = ./waybar-style.css;
+            inherit bash;
+            fontSize =
+              if cfg.hidpi
+              then 28
+              else 16;
+          };
+
+        "swaylock/config".source = ./swaylock-config;
       };
-      xdg.configFile."kanshi/config".source = ./kanshi-config;
-      xdg.configFile."waybar/config".source = ./waybar-config;
-      xdg.configFile."waybar/style.css".source = with pkgs; substituteAll {
-        src = ./waybar-style.css; inherit bash; fontSize = if cfg.hidpi then 28 else 16;
+
+      home.file = {
+        ".tmux.conf".source = ./tmux.conf;
+        ".vimrc".source = ./vimrc;
+        ".git-prompt".source = ./git-prompt.sh;
       };
-      xdg.configFile."swaylock/config".source = ./swaylock-config;
-      home.file.".tmux.conf".source = ./tmux.conf;
-      home.file.".vimrc".source = ./vimrc;
-      home.file.".git-prompt".source = ./git-prompt.sh;
 
       gtk = {
         enable = true;
@@ -204,15 +248,24 @@ in
         "org/gnome/desktop/interface" = {
           #color-scheme = "prefer-dark";
           #cursor-theme = "Numix-Cursor-Light";
-          cursor-size = if cfg.hidpi then 48 else 24;
-          text-scaling-factor = if cfg.hidpi then 1.5 else 1.0;
+          cursor-size =
+            if cfg.hidpi
+            then 48
+            else 24;
+          text-scaling-factor =
+            if cfg.hidpi
+            then 1.5
+            else 1.0;
         };
       };
 
       home.pointerCursor = {
         package = pkgs.numix-cursor-theme;
         name = "Numix-Cursor-Light";
-        size = if cfg.hidpi then 48 else 24;
+        size =
+          if cfg.hidpi
+          then 48
+          else 24;
         x11.enable = true;
         gtk.enable = true;
       };

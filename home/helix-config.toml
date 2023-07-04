@@ -1,10 +1,13 @@
-theme = "base16_default"
-
+theme = "inahga"
 [editor]
-mouse = false
 
 [editor.file-picker]
 hidden = false
+
+[editor.lsp]
+enable = true
+display-messages = true
+display-inlay-hints = true
 
 [editor.soft-wrap]
 enable = true
