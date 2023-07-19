@@ -166,6 +166,7 @@ in {
           if cfg.hidpi
           then "2.0"
           else "1.0";
+        _JAVA_AWT_WM_NONREPARENTING = 1;
       };
 
       xdg.configFile = {

@@ -1,6 +1,11 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [ (import ../pkgs) ];
+  nixpkgs.overlays = [(import ../pkgs)];
 
   nix = {
     settings.auto-optimise-store = true;
@@ -15,11 +20,15 @@
     enable = true;
     configurationLimit = 10;
   };
+  boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;
+  boot.kernel.sysctl."fs.inotify.max_user_instances" = 512;
 
-  swapDevices = [{
-    device = "/swap";
-    size = 8192;
-  }];
+  swapDevices = [
+    {
+      device = "/swap";
+      size = 8192;
+    }
+  ];
 
   system.autoUpgrade.enable = true;
 
@@ -31,14 +40,14 @@
   networking.useDHCP = lib.mkDefault true;
   hardware.bluetooth = {
     enable = true;
-    settings = { General = { Enable = "Source,Sink,Media,Socket"; }; };
+    settings = {General = {Enable = "Source,Sink,Media,Socket";};};
   };
 
   time.timeZone = "America/Detroit";
 
   users.users.inahga = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "libvirtd" "docker" ];
+    extraGroups = ["wheel" "networkmanager" "libvirtd" "docker"];
     initialPassword = "password";
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJBN1uV3RK41ghFQLYqNTVXUVALbn3KDr3E8HCxk7zC8AAAAEXNzaDp5dWJpa2V5LXNtYWxs"
@@ -73,11 +82,21 @@
   security.rtkit.enable = true;
   security.doas = {
     enable = true;
-    extraRules = [{
-      groups = [ "wheel" ];
-      keepEnv = true;
-    }];
+    extraRules = [
+      {
+        groups = ["wheel"];
+        keepEnv = true;
+      }
+    ];
   };
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "nofile";
+      value = "65536";
+    }
+  ];
 
   environment.defaultPackages = with pkgs; [
     _1password
@@ -85,6 +104,7 @@
     acpi
     alacritty
     alejandra
+    apacheHttpd # for `ab`
     ansible
     awscli2
     bc
@@ -104,6 +124,7 @@
     entr
     evince
     fd
+    figlet
     file
     firefox-wayland
     flow
@@ -114,6 +135,7 @@
     gdb
     gettext
     gh
+    ghidra-bin
     git
     git-crypt
     glow
@@ -195,10 +217,12 @@
     vim
     virt-manager
     vlc
+    vscode
     waybar
     webcamoid
+    wireshark
     wget
-    (with google-cloud-sdk; (withExtraComponents [ components.gke-gcloud-auth-plugin ]))
+    (with google-cloud-sdk; (withExtraComponents [components.gke-gcloud-auth-plugin]))
     wl-clipboard
     wlopm
     wlr-randr
@@ -212,7 +236,6 @@
     zip
   ];
 
-
   programs.sway.enable = true;
 
   programs.ssh = {
@@ -224,9 +247,9 @@
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-      extraNativeMessagingHosts = with pkgs; [ tridactyl-native ];
+      extraNativeMessagingHosts = with pkgs; [tridactyl-native];
       extraPolicies = {
-        ExtensionSettings = { };
+        ExtensionSettings = {};
       };
     };
   };
@@ -234,7 +257,7 @@
   # Make screen sharing work.
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
+    extraPortals = with pkgs; [xdg-desktop-portal-wlr xdg-desktop-portal-gtk];
   };
 
   virtualisation.docker.enable = true;
