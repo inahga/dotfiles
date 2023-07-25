@@ -50,6 +50,7 @@ in {
         userName = "Ameer Ghani";
         userEmail = cfg.email;
         ignores = ["aghani*" "inahga*"];
+        difftastic.enable = true;
         extraConfig = {
           commit = {
             gpgsign = true;

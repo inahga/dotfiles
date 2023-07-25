@@ -23,20 +23,26 @@
   ];
 
   nix = {
-    settings.auto-optimise-store = true;
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = "nix-command flakes";
+    };
     nixPath = with config; [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
       "nixos-config=/etc/nixos/hosts/${networking.hostName}/default.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
   };
-
-  boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 10;
+  boot = {
+    loader.systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+    };
+    kernel.sysctl = {
+      "fs.inotify.max_user_watches" = 524288;
+      "fs.inotify.max_user_instances" = 512;
+    };
   };
-  boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;
-  boot.kernel.sysctl."fs.inotify.max_user_instances" = 512;
 
   swapDevices = [
     {
@@ -47,12 +53,13 @@
 
   system.autoUpgrade.enable = true;
 
+  networking = {
+    networkmanager.enable = true;
+    firewall.enable = true;
+    nftables.enable = true;
+    useDHCP = lib.mkDefault true;
+  };
   systemd.services.NetworkManager-wait-online.enable = false;
-
-  networking.networkmanager.enable = true;
-  networking.firewall.enable = true;
-  networking.nftables.enable = true;
-  networking.useDHCP = lib.mkDefault true;
   hardware.bluetooth = {
     enable = true;
     settings = {General = {Enable = "Source,Sink,Media,Socket";};};
@@ -70,48 +77,51 @@
     ];
   };
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.river}/bin/river";
-        user = "inahga";
+  services = {
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.river}/bin/river";
+          user = "inahga";
+        };
       };
+    };
+    dbus.enable = true;
+    flatpak.enable = true;
+    blueman.enable = true;
+    fwupd.enable = true;
+    pcscd.enable = true;
+    gvfs.enable = true; # Mount, trash, SMB, other things...
+    tumbler.enable = true; # Image thumbnail service.
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
     };
   };
 
-  services.dbus.enable = true;
-  services.flatpak.enable = true;
-  services.blueman.enable = true;
-  services.fwupd.enable = true;
-  services.pcscd.enable = true;
-  services.gvfs.enable = true; # Mount, trash, SMB, other things...
-  services.tumbler.enable = true; # Image thumbnail service.
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  security.rtkit.enable = true;
-  security.doas = {
-    enable = true;
-    extraRules = [
+  security = {
+    rtkit.enable = true;
+    doas = {
+      enable = true;
+      extraRules = [
+        {
+          groups = ["wheel"];
+          keepEnv = true;
+        }
+      ];
+    };
+    pam.loginLimits = [
       {
-        groups = ["wheel"];
-        keepEnv = true;
+        domain = "*";
+        type = "soft";
+        item = "nofile";
+        value = "65536";
       }
     ];
   };
-  security.pam.loginLimits = [
-    {
-      domain = "*";
-      type = "soft";
-      item = "nofile";
-      value = "65536";
-    }
-  ];
 
   environment.defaultPackages = with pkgs; [
     _1password
@@ -132,6 +142,7 @@
     curl
     delve
     dig
+    difftastic
     direnv
     discord
     distrobox
@@ -251,22 +262,23 @@
     zip
   ];
 
-  programs.sway.enable = true;
-
-  programs.ssh = {
-    startAgent = true;
-    enableAskPassword = true;
-  };
-
-  # Set up firefox for wayland usage
-  programs.firefox = {
-    enable = true;
-    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-      extraNativeMessagingHosts = with pkgs; [tridactyl-native];
-      extraPolicies = {
-        ExtensionSettings = {};
+  programs = {
+    dconf.enable = true;
+    # Set up firefox for wayland usage
+    firefox = {
+      enable = true;
+      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+        extraNativeMessagingHosts = with pkgs; [tridactyl-native];
+        extraPolicies = {
+          ExtensionSettings = {};
+        };
       };
     };
+    ssh = {
+      startAgent = true;
+      enableAskPassword = true;
+    };
+    sway.enable = true;
   };
 
   # Make screen sharing work.
@@ -275,14 +287,14 @@
     extraPortals = with pkgs; [xdg-desktop-portal-wlr xdg-desktop-portal-gtk];
   };
 
-  virtualisation.docker.enable = true;
-  virtualisation.podman = {
-    enable = true;
-    defaultNetwork.settings.dns_enabled = true;
+  virtualisation = {
+    docker.enable = true;
+    libvirtd.enable = true;
+    podman = {
+      enable = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
   };
-
-  virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
 
   fonts = {
     enableDefaultFonts = true;
