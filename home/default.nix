@@ -232,6 +232,7 @@ in {
         ".tmux.conf".source = ./tmux.conf;
         ".vimrc".source = ./vimrc;
         ".git-prompt".source = ./git-prompt.sh;
+        ".cargo/config.toml".source = ./cargo-config.toml;
       };
 
       gtk = {

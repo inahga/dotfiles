@@ -3,7 +3,9 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
+in {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [
     (import ../pkgs)
@@ -260,6 +262,8 @@
     yubikey-manager
     yubioath-flutter
     zip
+
+    unstable.mold
   ];
 
   programs = {
