@@ -129,6 +129,7 @@ in {
     _1password
     _1password-gui
     acpi
+    act
     alacritty
     alejandra
     apacheHttpd # for `ab`
@@ -177,6 +178,7 @@ in {
     helix
     htop
     jq
+    jupyter
     k9s
     kak-lsp
     kakoune
@@ -220,6 +222,7 @@ in {
     psmisc
     pstree
     python3
+    rclone
     ripgrep
     river
     rsync
