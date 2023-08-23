@@ -140,7 +140,6 @@ in {
     brightnessctl
     chromium
     clang-tools
-    cobang
     coreutils
     curl
     delve
