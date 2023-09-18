@@ -260,6 +260,7 @@ in {
     xdg-utils
     xfce.thunar
     xterm
+    yarn
     yq
     yubikey-manager
     yubioath-flutter
