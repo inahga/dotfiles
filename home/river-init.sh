@@ -16,8 +16,8 @@ fi
 
 set_background() {
 	riverctl background-color 0x000000
-	riverctl border-color-unfocused 0x93a1a1
-	riverctl border-color-focused 0x000000
+	riverctl border-color-focused 0x93a1a1
+	riverctl border-color-unfocused 0x000000
 	swaybg -m fill -i "$(fd jpg "$HOME/Pictures/wallpapers" | shuf | head -n1)" &
 }
 
@@ -52,6 +52,10 @@ set_bindings() {
 	riverctl map normal Control+Alt Delete spawn "swaylock -f" # lock screen
 	riverctl map normal Super J focus-view next
 	riverctl map normal Super K focus-view previous
+	riverctl map normal Super H focus-view next
+	riverctl map normal Super L focus-view previous
+	riverctl map normal Super+Shift H send-layout-cmd rivertile "main-ratio -0.05"
+	riverctl map normal Super+Shift L send-layout-cmd rivertile "main-ratio +0.05"
 	riverctl map normal Super+Shift J swap next
 	riverctl map normal Super+Shift K swap previous
 	riverctl map normal Super Period focus-output next
@@ -59,25 +63,6 @@ set_bindings() {
 	riverctl map normal Super+Shift Period send-to-output next
 	riverctl map normal Super+Shift Comma send-to-output previous
 	riverctl map normal Super Return zoom
-	riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
-	riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
-	riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
-	riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
-	riverctl map normal Super+Alt H move left 100
-	riverctl map normal Super+Alt J move down 100
-	riverctl map normal Super+Alt K move up 100
-	riverctl map normal Super+Alt L move right 100
-	riverctl map normal Super+Alt+Control H snap left
-	riverctl map normal Super+Alt+Control J snap down
-	riverctl map normal Super+Alt+Control K snap up
-	riverctl map normal Super+Alt+Control L snap right
-	riverctl map normal Super+Alt+Shift H resize horizontal -100
-	riverctl map normal Super+Alt+Shift J resize vertical 100
-	riverctl map normal Super+Alt+Shift K resize vertical -100
-	riverctl map normal Super+Alt+Shift L resize horizontal 100
-	riverctl map-pointer normal Super BTN_LEFT move-view
-	riverctl map-pointer normal Super BTN_RIGHT resize-view
-	riverctl map-pointer normal Super BTN_MIDDLE toggle-float
 
 	for i in $(seq 1 9); do
 		tags=$((1 << ($i - 1)))
@@ -93,7 +78,6 @@ set_bindings() {
 	riverctl map normal Super 0 set-focused-tags $all_tags
 	riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-	riverctl map normal Super+Shift F toggle-float
 	riverctl map normal Super Z toggle-fullscreen
 	riverctl map normal Super F toggle-fullscreen
 
@@ -102,6 +86,8 @@ set_bindings() {
 	riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
 	riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
 	riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
+	riverctl map normal Super+Shift Up send-layout-cmd rivertile "main-count +1"
+	riverctl map normal Super+Shift Down send-layout-cmd rivertile "main-count -1"
 
 	# Configure screenshot shortcuts.
 	riverctl map normal Shift Print spawn 'grim "$(xdg-user-dir PICTURES)"/"$(date +"%s_grim.png")"'
