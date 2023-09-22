@@ -317,20 +317,12 @@ in {
       proggyfonts
       dejavu_fonts
       font-awesome
+      hack-font
     ];
     fontconfig = {
-      # Let better emojis coexist with the regular mono font.
-      localConf = ''
-        <fontconfig>
-          <alias>
-            <family>monospace</family>
-            <prefer>
-              <family>DejaVu Sans Mono</family>
-              <family>Noto Color Emoji</family>
-             </prefer>
-          </alias>
-        </fontconfig>
-      '';
+      defaultFonts = {
+        monospace = ["Hack" "Noto Color Emoji"];
+      };
     };
   };
 }
