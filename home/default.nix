@@ -20,6 +20,10 @@ in {
     default = "inahga@gmail.com";
     type = types.str;
   };
+  options.custom.light_mode = mkOption {
+    default = false;
+    type = types.bool;
+  };
 
   config = {
     home-manager.users.inahga = {
@@ -50,7 +54,6 @@ in {
         userName = "Ameer Ghani";
         userEmail = cfg.email;
         ignores = ["aghani*" "inahga*"];
-        difftastic.enable = true;
         extraConfig = {
           commit = {
             gpgsign = true;
@@ -199,17 +202,23 @@ in {
 
         "helix/config.toml".source = ./helix-config.toml;
         "helix/languages.toml".source = ./helix-languages.toml;
-        "helix/themes/inahga.toml".source = ./helix-theme.toml;
+        "helix/themes/inahga.toml".source =
+          if cfg.light_mode
+          then ./helix-theme-light.toml
+          else ./helix-theme.toml;
 
         "git/allowed_signers".source = ./allowed_signers;
         "kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
         "alacritty/alacritty.yml".source = with pkgs;
           substituteAll {
-            src = ./alacritty.yml;
+            src =
+              if cfg.light_mode
+              then ./alacritty-light.yml
+              else ./alacritty.yml;
             inherit bash;
             fontSize =
               if cfg.hidpi
-              then 27
+              then 25.5
               else 16;
           };
         "kanshi/config".source = ./kanshi-config;
@@ -229,7 +238,10 @@ in {
       };
 
       home.file = {
-        ".tmux.conf".source = ./tmux.conf;
+        ".tmux.conf".source =
+          if cfg.light_mode
+          then ./tmux-light.conf
+          else ./tmux.conf;
         ".vimrc".source = ./vimrc;
         ".git-prompt".source = ./git-prompt.sh;
         ".cargo/config.toml".source = ./cargo-config.toml;
@@ -238,7 +250,10 @@ in {
       gtk = {
         enable = true;
         theme = {
-          name = "Materia-dark";
+          name =
+            if cfg.light_mode
+            then "Materia-light"
+            else "Materia-dark";
           package = pkgs.materia-theme;
         };
         iconTheme = {
@@ -249,8 +264,10 @@ in {
 
       dconf.settings = {
         "org/gnome/desktop/interface" = {
-          #color-scheme = "prefer-dark";
-          #cursor-theme = "Numix-Cursor-Light";
+          color-scheme =
+            if cfg.light_mode
+            then "prefer-light"
+            else "prefer-dark";
           cursor-size =
             if cfg.hidpi
             then 48
