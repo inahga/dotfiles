@@ -18,6 +18,7 @@ in {
       };
       version = "6.1.42";
       modDirVersion = "6.1.42";
+      kernelPatches = [];
     };
   });
 
