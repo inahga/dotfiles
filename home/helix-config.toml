@@ -1,6 +1,5 @@
 theme = "inahga"
 [editor]
-insert-final-newline = true
 
 [editor.file-picker]
 hidden = false
