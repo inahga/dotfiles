@@ -85,8 +85,7 @@ in {
           export PROMPT_COMMAND='history -a; history -c; history -r'
           export HISTTIMEFORMAT='%F %T '
 
-          export PATH="$PATH:$HOME/go/bin"
-          export PATH="$PATH:$HOME/.cargo/bin"
+          export PATH="$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
           if [ -e ~/.git-prompt ]; then
               source ~/.git-prompt
           fi
