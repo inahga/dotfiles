@@ -67,7 +67,7 @@ in {
     settings = {General = {Enable = "Source,Sink,Media,Socket";};};
   };
 
-  time.timeZone = "America/Detroit";
+  time.timeZone = "America/Chicago";
 
   users.users.inahga = {
     isNormalUser = true;
@@ -176,6 +176,7 @@ in {
     grpc-tools
     helix
     htop
+    hwinfo
     jq
     jupyter
     k9s
@@ -233,6 +234,7 @@ in {
     slurp
     socat
     spotify
+    strace
     swaybg
     swayidle
     swaylock

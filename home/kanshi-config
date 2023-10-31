@@ -3,6 +3,13 @@ profile {
 	output eDP-1 enable scale 1.0
 }
 
+# Laptop on dock
+profile {
+	output DP-9 enable mode 1920x1200 position 0,0
+	output DP-8 enable mode 1920x1200 position 1920,0
+	output eDP-1 enable scale 1.0 position 3840,0
+}
+
 # Desktop
 profile {
 	output "GIGA-BYTE TECHNOLOGY CO., LTD. Gigabyte M32U 21261B003268" enable mode 3840x2160@143.998993Hz position 0,0
