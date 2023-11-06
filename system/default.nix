@@ -67,7 +67,7 @@ in {
     settings = {General = {Enable = "Source,Sink,Media,Socket";};};
   };
 
-  time.timeZone = "America/Chicago";
+  time.timeZone = "America/Detroit";
 
   users.users.inahga = {
     isNormalUser = true;
