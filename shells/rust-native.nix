@@ -1,13 +1,13 @@
-{ pkgs ? import <nixpkgs> { } }:
-
+{pkgs ? import <nixos-unstable> {}}:
 pkgs.mkShell {
-  nativeBuildInputs = [ pkgs.pkg-config ];
+  nativeBuildInputs = [pkgs.pkg-config];
   buildInputs = with pkgs; [
-    openssl
-    rustc
     cargo
-    rustfmt
-    rust-analyzer
     clippy
+    cmake
+    openssl
+    rust-analyzer
+    rustc
+    rustfmt
   ];
 }

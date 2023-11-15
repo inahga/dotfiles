@@ -195,6 +195,8 @@ in {
     lsof
     lvm2
     mako
+    man-pages
+    man-pages-posix
     moreutils
     marksman
     mutt
