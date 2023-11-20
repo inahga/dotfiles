@@ -159,7 +159,7 @@ in {
         MOZ_ENABLE_WAYLAND = 1;
         XDG_CURRENT_DESKTOP = "river";
         XKB_DEFAULT_OPTIONS = "caps:escape";
-        EDITOR = "kak";
+        EDITOR = "hx";
         NIX_SHELL_PRESERVE_PROMPT = 1;
         HIDPI =
           if cfg.hidpi

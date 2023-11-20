@@ -132,8 +132,9 @@ in {
     act
     alacritty
     alejandra
-    apacheHttpd # for `ab`
+    android-studio
     ansible
+    apacheHttpd # for `ab`
     awscli2
     bc
     bind
@@ -142,6 +143,7 @@ in {
     clang-tools
     coreutils
     curl
+    delta
     delve
     dig
     difftastic
@@ -173,12 +175,11 @@ in {
     gopls
     gotools
     grim
+    gron
     grpc-tools
-    helix
     htop
     hwinfo
     jq
-    jupyter
     k9s
     kak-lsp
     kakoune
@@ -242,6 +243,7 @@ in {
     swaylock
     terraform
     terraform-ls
+    tig
     tmux
     tree
     unzip
@@ -270,6 +272,7 @@ in {
     yubioath-flutter
     zip
 
+    unstable.helix
     unstable.mold
   ];
 
