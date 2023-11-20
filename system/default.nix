@@ -188,6 +188,7 @@ in {
     kind
     krita
     kubectl
+    kubernetes-helm
     libimobiledevice
     libnotify
     libreoffice
