@@ -7,7 +7,7 @@
 with lib; let
   home-manager =
     builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
+    "https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz";
   cfg = config.custom;
 in {
   imports = [(import "${home-manager}/nixos")];
@@ -27,7 +27,7 @@ in {
 
   config = {
     home-manager.users.inahga = {
-      home.stateVersion = "23.05";
+      home.stateVersion = "23.11";
 
       home.shellAliases = {
         ll = "ls -alh";
@@ -251,9 +251,9 @@ in {
         theme = {
           name =
             if cfg.light_mode
-            then "Materia-light"
-            else "Materia-dark";
-          package = pkgs.materia-theme;
+            then "Colloid-Light"
+            else "Colloid-Dark";
+          package = pkgs.colloid-gtk-theme;
         };
         iconTheme = {
           name = "BeautyLine";
