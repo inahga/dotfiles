@@ -2,3 +2,7 @@
 name = "nix"
 auto-format = true
 formatter = { command = "alejandra", args = ["-q"] }
+
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+config = { cargo = { features = "all" } }
