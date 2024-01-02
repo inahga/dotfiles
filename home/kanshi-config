@@ -6,7 +6,7 @@ profile {
 # Laptop on dock
 profile {
 	output DP-11 enable mode 2560x1440 position 0,0
-	output DP-8 enable mode 2560x1440 position 2560,0
+	output DP-7 enable mode 2560x1440 position 2560,0
 	output eDP-1 enable scale 1.0 position 5120,0
 }
 
