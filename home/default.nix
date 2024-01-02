@@ -90,14 +90,7 @@ in {
               source ~/.git-prompt
           fi
 
-          export GLADMOJI="😀😅😆😄😃😇😉😊🙂😋😍😘😜😝😛😎😏😻😺🙌💪👌🌞🔥👍💕💯✅🆒🆗💲"
-          export SADMOJI="😶😳😠😞😡😕😣😖😫😩😮😱😨😰😯😦😢😥😥😵😭😴😷💀😿👎🙊💥🔪💔🆘⛔🚫❌🚷❓❗"
           export PROMPT_DIRTRIM=3
-          export PS1="\n\[\033[1;31m\]\$(if [ -n \"\$IN_NIX_SHELL\" ]; then echo \"[\$name] \"; fi)\[\033[0m\]\
-          \e[34m\u@\h\[\e[0m\] \
-          \$(if [ \$? == 0 ]; then echo -n \"\''${GLADMOJI:RANDOM%\''${#GLADMOJI}:1}\"; \
-          else echo -n \"\''${SADMOJI:RANDOM%\''${#SADMOJI}:1}\"; fi)\
-          \$(if [ -e ~/.git-prompt ]; then __git_ps1 \" (git: %s)\"; fi) \w\n🐧 "
 
           DEFAULT_TMUX="base"
           if [ -z "$TMUX" ]; then
@@ -137,12 +130,6 @@ in {
               WINIT_UNIX_BACKEND=x11 alacritty "$@"
           }
 
-          # alacritty pinebook pro fix
-          # https://github.com/alacritty/alacritty/issues/128#issuecomment-663927477
-          if [ "$(uname -m)" == "aarch64" ]; then
-              export PAN_MESA_DEBUG=gl3
-          fi
-
           if [ -e "$HOME/.bashrc-custom" ]; then
               source "$HOME/.bashrc-custom"
           fi
@@ -154,6 +141,126 @@ in {
 
       programs.firefox = {enable = true;};
       programs.direnv.enable = true;
+
+      programs.starship = {
+        enable = true;
+        settings = {
+          add_newline = true;
+          directory.truncate_to_repo = false;
+          kubernetes = {
+            disabled = false;
+            format = "with [$symbol$context( \($namespace\))]($style) ";
+            symbol = "";
+            context_aliases = {
+              "gke_.*_(?P<cluster>[\\w-]+)" = "gke-$cluster";
+            };
+          };
+          gcloud = {
+            disabled = true;
+            format = "[\\($symbol$account(@$domain)(\($region\))\\)]($style) ";
+          };
+          character = {
+            success_symbol = "🐧";
+            error_symbol = "🐧";
+          };
+          time = {
+            disabled = false;
+            format = "[$time]($style) ";
+          };
+          status.disabled = false;
+          line_break.disabled = true;
+          format = concatStringsSep "" [
+            "$time"
+            "$directory"
+            "$username"
+            "$hostname"
+            "$localip"
+            "$shlvl"
+            "$singularity"
+            "$kubernetes"
+            "$vcsh"
+            "$fossil_branch"
+            "$fossil_metrics"
+            "$git_branch"
+            "$git_commit"
+            "$git_state"
+            "$git_metrics"
+            "$git_status"
+            "$hg_branch"
+            "$pijul_channel"
+            "$docker_context"
+            "$package"
+            "$c"
+            "$cmake"
+            "$cobol"
+            "$daml"
+            "$dart"
+            "$deno"
+            "$dotnet"
+            "$elixir"
+            "$elm"
+            "$erlang"
+            "$fennel"
+            "$golang"
+            "$guix_shell"
+            "$haskell"
+            "$haxe"
+            "$helm"
+            "$java"
+            "$julia"
+            "$kotlin"
+            "$gradle"
+            "$lua"
+            "$nim"
+            "$nodejs"
+            "$ocaml"
+            "$opa"
+            "$perl"
+            "$php"
+            "$pulumi"
+            "$purescript"
+            "$python"
+            "$raku"
+            "$rlang"
+            "$red"
+            "$ruby"
+            "$rust"
+            "$scala"
+            "$solidity"
+            "$swift"
+            "$terraform"
+            "$typst"
+            "$vlang"
+            "$vagrant"
+            "$zig"
+            "$buf"
+            "$nix_shell"
+            "$conda"
+            "$meson"
+            "$spack"
+            "$memory_usage"
+            "$aws"
+            "$gcloud"
+            "$openstack"
+            "$azure"
+            "$direnv"
+            "$env_var"
+            "$crystal"
+            "$custom"
+            "$cmd_duration"
+            "$line_break"
+            "$jobs"
+            "$battery"
+            "$status"
+            "$os"
+            "$container"
+            "$shell"
+            "\n"
+            "$sudo"
+            "$character"
+          ];
+        };
+      };
 
       home.sessionVariables = {
         MOZ_ENABLE_WAYLAND = 1;
