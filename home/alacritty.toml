@@ -1,0 +1,13 @@
+[colors.primary]
+background = "#000000"
+foreground = "#ffffff"
+
+[font]
+size = 17
+normal = { family = "Hack Nerd Font Mono", style = "Regular" }
+
+[window]
+decorations = "none"
+opacity = 1.0
+startup_mode = "Maximized"
+option_as_alt = "Both"
