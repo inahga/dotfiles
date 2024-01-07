@@ -87,6 +87,16 @@
         }
 
         export PATH="$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+
+        TEMP_DIR="/Users/$USER/Library/Caches/TemporaryItems"
+        mkdir -p "$TEMP_DIR"
+        SSH_AGENT_ENV="$TEMP_DIR/ssh-agent.env"
+        if ! pgrep -u "$USER" ssh-agent >/dev/null; then
+            ssh-agent -t 1h >"$SSH_AGENT_ENV"
+        fi
+        if [[ ! -f "$SSH_AUTH_SOCK" ]]; then
+            source "$SSH_AGENT_ENV" >/dev/null
+        fi
       '';
     };
   };
