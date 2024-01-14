@@ -17,7 +17,7 @@
     };
 
     file = {
-      ".tmux.conf".source = ./tmux.conf;
+      ".tmux.conf".source = ./tmux-darwin.conf;
       ".vimrc".source = ./vimrc;
       ".cargo/config.toml".source = ./cargo-config.toml;
     };
@@ -103,6 +103,9 @@
 
   targets.darwin = {
     currentHostDefaults = {
+      NSGlobalDomain = {
+        AppleFontSmoothing = 0;
+      };
       "com.apple.controlcenter" = {
         BatteryShowPercentage = true;
       };
@@ -144,7 +147,7 @@
     "git/allowed_signers".source = ./allowed_signers;
     "helix/config.toml".source = ./helix-config.toml;
     "helix/languages.toml".source = ./helix-languages.toml;
-    "helix/themes/inahga.toml".source = ./helix-theme.toml;
+    "helix/themes/inahga.toml".source = ./helix-theme-light.toml;
     "kak/kakrc".source = ./kakrc;
     "kak/shellcheck.kak".source = ./shellcheck.kak;
     "kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
