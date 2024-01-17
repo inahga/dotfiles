@@ -10,10 +10,17 @@
       gc = "git checkout";
       tf = "terraform";
       p = "podman";
+      hg = "history 0 | grep";
     };
+
+    sessionPath = [
+      "/opt/homebrew/bin"
+      "/opt/homebrew/sbin"
+    ];
 
     sessionVariables = {
       EDITOR = "hx";
+      CONTAINERS_MACHINE_PROVIDER = "applehv";
     };
 
     file = {
@@ -112,7 +119,7 @@
     };
     defaults = {
       NSGlobalDomain = {
-        AppleInterfaceStyle = "Dark";
+        AppleInterfaceStyle = "Light";
         AppleInterfaceStyleSwitchesAutomatically = false;
         AppleShowAllExtensions = true;
         KeyRepeat = 1;

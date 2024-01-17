@@ -1,4 +1,3 @@
-self: super:
-{
-  kakoune = super.callPackage ./kakoune.nix { };
+self: super: {
+  kakoune = super.callPackage ./kakoune.nix {};
 }

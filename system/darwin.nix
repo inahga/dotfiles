@@ -18,6 +18,7 @@ in {
     delve
     dig
     direnv
+    docker
     entr
     fd
     figlet
@@ -56,6 +57,7 @@ in {
     perl
     pgcli
     pkg-config
+    podman
     postgresql
     python3
     rclone
@@ -110,6 +112,9 @@ in {
     #   - They're a desktop app, and spotlight doesn't index nix-managed applications, or more
     #     precisely it doesn't index symlinks.
     #   - They are missing an aarch64 build in nixpkgs.
+    brews = [
+      "vfkit"
+    ];
     casks = [
       "1password"
       "alacritty"
@@ -134,6 +139,9 @@ in {
       cleanup = "zap";
       upgrade = true;
     };
+    taps = [
+      "cfergeau/crc"
+    ];
   };
 
   system.keyboard = {
