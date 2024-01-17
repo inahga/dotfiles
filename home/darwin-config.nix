@@ -20,7 +20,6 @@
 
     sessionVariables = {
       EDITOR = "hx";
-      CONTAINERS_MACHINE_PROVIDER = "applehv";
     };
 
     file = {
@@ -62,6 +61,20 @@
     zsh = {
       enable = true;
       completionInit = "autoload -U compinit && compinit -u";
+      enableAutosuggestions = true;
+      enableCompletion = true;
+
+      envExtra = ''
+        export CONTAINERS_MACHINE_PROVIDER="applehv"
+        export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/applehv/podman.sock"
+      '';
+
+      history = {
+        expireDuplicatesFirst = true;
+        extended = true;
+        share = true;
+      };
+
       initExtra = ''
         DEFAULT_TMUX="base"
         if [ -z "$TMUX" ]; then

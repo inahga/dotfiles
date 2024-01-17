@@ -261,6 +261,8 @@ in {
     unstable.mold
   ];
 
+  environment.pathsToLink = ["/share/zsh"];
+
   programs = {
     dconf.enable = true;
     # Set up firefox for wayland usage
