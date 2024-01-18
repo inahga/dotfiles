@@ -15,7 +15,6 @@ in {
     clang-tools
     coreutils
     curl
-    darwin.libiconv
     delve
     dig
     direnv
@@ -25,7 +24,6 @@ in {
     figlet
     file
     fzf
-    gcc
     gettext
     gh
     git
@@ -125,6 +123,7 @@ in {
     #     precisely it doesn't index symlinks.
     #   - They are missing an aarch64 build in nixpkgs.
     brews = [
+      "colima"
       "vfkit"
       {
         name = "libiconv";

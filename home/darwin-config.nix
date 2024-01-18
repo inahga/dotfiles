@@ -66,7 +66,6 @@
 
       envExtra = ''
         export CONTAINERS_MACHINE_PROVIDER="applehv"
-        export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/applehv/podman.sock"
         export LIBRARY_PATH=/opt/homebrew/lib
       '';
 
