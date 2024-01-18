@@ -126,6 +126,10 @@ in {
     #   - They are missing an aarch64 build in nixpkgs.
     brews = [
       "vfkit"
+      {
+        name = "libiconv";
+        link = true;
+      }
     ];
     casks = [
       "1password"
