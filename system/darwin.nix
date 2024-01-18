@@ -15,6 +15,7 @@ in {
     clang-tools
     coreutils
     curl
+    darwin.libiconv
     delve
     dig
     direnv
@@ -92,6 +93,17 @@ in {
       enable = true;
       # https://github.com/LnL7/nix-darwin/issues/554#issuecomment-1289736477
       enableCompletion = false;
+
+      # https://github.com/LnL7/nix-darwin/issues/158#issuecomment-974598670
+      shellInit = ''export OLD_NIX_PATH="$NIX_PATH";'';
+      interactiveShellInit = ''
+        if [ -n "$OLD_NIX_PATH" ]; then
+          if [ "$NIX_PATH" != "$OLD_NIX_PATH" ]; then
+            NIX_PATH="$OLD_NIX_PATH"
+          fi
+          unset OLD_NIX_PATH
+        fi
+      '';
     };
   };
 
