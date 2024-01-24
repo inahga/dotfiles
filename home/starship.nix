@@ -8,9 +8,12 @@ with lib; {
       disabled = false;
       format = "with [$symbol$context( \($namespace\))]($style) ";
       symbol = "";
-      context_aliases = {
-        "gke_.*_(?P<cluster>[\\w-]+)" = "gke-$cluster";
-      };
+      contexts = [
+        {
+          context_pattern = "gke_.*_(?P<cluster>[\\w-]+)";
+          context_alias = "gke-$cluster";
+        }
+      ];
     };
     gcloud = {
       disabled = true;
