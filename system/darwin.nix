@@ -74,6 +74,7 @@ in {
     vim
     wget
     (with google-cloud-sdk; (withExtraComponents [components.gke-gcloud-auth-plugin]))
+    wireguard-tools
     yarn
     yq
     yubikey-manager
@@ -142,6 +143,7 @@ in {
       "obs"
       "rectangle"
       "slack"
+      "signal"
       "spotify"
       "steam"
       "yubico-authenticator"
