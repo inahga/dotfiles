@@ -36,6 +36,7 @@ in {
     gron
     grpc-tools
     htop
+    jdk17
     jq
     k9s
     kind
