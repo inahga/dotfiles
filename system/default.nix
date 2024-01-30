@@ -116,7 +116,6 @@ in {
     act
     alacritty
     alejandra
-    android-studio
     ansible
     apacheHttpd # for `ab`
     awscli2
@@ -210,6 +209,7 @@ in {
     psmisc
     pstree
     python3
+    python311Packages.python-lsp-server
     rclone
     ripgrep
     river
@@ -257,6 +257,7 @@ in {
     yubioath-flutter
     zip
 
+    unstable.android-studio
     unstable.helix
     unstable.mold
   ];
