@@ -30,9 +30,11 @@ in {
     git-crypt
     gnumake
     gnupg
+    gnused
     go
     gopls
     gotools
+    graphviz
     gron
     grpc-tools
     htop
@@ -126,6 +128,7 @@ in {
     #   - They are missing an aarch64 build in nixpkgs.
     brews = [
       "colima"
+      "docker-credential-helper"
       "vfkit"
       {
         name = "libiconv";
@@ -135,6 +138,7 @@ in {
     casks = [
       "1password"
       "alacritty"
+      "android-commandlinetools"
       "android-studio"
       "chromium"
       "discord"
