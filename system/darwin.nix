@@ -129,6 +129,7 @@ in {
     brews = [
       "colima"
       "docker-credential-helper"
+      "jdtls"
       "vfkit"
       {
         name = "libiconv";
