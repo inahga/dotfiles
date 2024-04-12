@@ -13,6 +13,7 @@ in {
     bc
     bind
     clang-tools
+    cmake
     coreutils
     curl
     delve
@@ -128,7 +129,9 @@ in {
     #   - They are missing an aarch64 build in nixpkgs.
     brews = [
       "colima"
+      "docker-buildx"
       "docker-credential-helper"
+      "k2tf"
       "jdtls"
       "vfkit"
       {

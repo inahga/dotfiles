@@ -3,6 +3,16 @@ name = "nix"
 auto-format = true
 formatter = { command = "alejandra", args = ["-q"] }
 
+[[language]]
+name = "typescript"
+auto-format = true
+formatter = { command = "npx", args = ["prettier", "--parser", "typescript"] }
+
+[[language]]
+name = "tsx"
+formatter = { command = "npx", args = ["prettier", "--stdin-filepath", "file.tsx"] }
+auto-format = true
+
 [language-server.rust-analyzer]
 command = "rust-analyzer"
 config = { cargo = { features = "all" } }
