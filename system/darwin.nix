@@ -44,6 +44,7 @@ in {
     kind
     kubectl
     kubernetes-helm
+    libz
     moreutils
     marksman
     mutt

@@ -44,6 +44,9 @@ in {
     firewall.enable = true;
     nftables.enable = true;
     useDHCP = lib.mkDefault true;
+    extraHosts = ''
+      127.0.0.1   leader.api.divviup.local helper.api.divviup.local grafana.monitoring.api.divviup.local alertmanager.monitoring.api.divviup.local prometheus.monitoring.api.divviup.local api.divviup.local app.divviup.local divviup.local
+    '';
   };
   systemd.services.NetworkManager-wait-online.enable = false;
   hardware.bluetooth = {
@@ -124,6 +127,7 @@ in {
     brightnessctl
     chromium
     clang-tools
+    cmake
     coreutils
     curl
     delta
@@ -162,6 +166,7 @@ in {
     grpc-tools
     htop
     hwinfo
+    jdk17
     jq
     k9s
     kak-lsp
