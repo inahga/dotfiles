@@ -7,7 +7,7 @@
 with lib; let
   home-manager =
     builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz";
+    "https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz";
   cfg = config.custom;
 in {
   imports = [(import "${home-manager}/nixos")];
@@ -46,7 +46,6 @@ in {
 
       services.gpg-agent = {
         enable = true;
-        pinentryFlavor = "tty";
       };
 
       programs.git = {
@@ -142,7 +141,7 @@ in {
       programs.firefox = {enable = true;};
       programs.direnv.enable = true;
 
-      programs.starship = import ./starship.nix { inherit lib; };
+      programs.starship = import ./starship.nix {inherit lib;};
 
       home.sessionVariables = {
         MOZ_ENABLE_WAYLAND = 1;
