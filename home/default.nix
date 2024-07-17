@@ -40,6 +40,7 @@ in {
         tf = "terraform";
         p = "podman";
         ssh-add = "ssh-add -t 28800";
+        hg = "history 0 | grep";
       };
 
       services.mpris-proxy.enable = true;
@@ -74,6 +75,7 @@ in {
 
       programs.bash = {
         enable = true;
+        enableCompletion = true;
         bashrcExtra = ''
           shopt -s histappend
           shopt -s cmdhist
@@ -196,12 +198,12 @@ in {
 
         "git/allowed_signers".source = ./allowed_signers;
         "kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
-        "alacritty/alacritty.yml".source = with pkgs;
+        "alacritty/alacritty.toml".source = with pkgs;
           substituteAll {
             src =
               if cfg.light_mode
-              then ./alacritty-light.yml
-              else ./alacritty.yml;
+              then ./alacritty.toml
+              else ./alacritty-dark.toml;
             inherit bash;
             fontSize =
               if cfg.hidpi

@@ -30,9 +30,9 @@ yellow = "0x4d2d00"
 background = "0xffffff"
 foreground = "0x1F2328"
 
-[font]
-size = 17
-normal = { family = "Hack Nerd Font Mono", style = "Regular" }
+# [font]
+# size = 17
+# normal = { family = "Hack Nerd Font Mono", style = "Regular" }
 
 [window]
 decorations = "none"

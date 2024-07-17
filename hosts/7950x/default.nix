@@ -5,6 +5,7 @@ in {
   networking.hostName = hostName;
 
   custom.email = "inahga@divviup.org";
+  custom.light_mode = true;
 
   imports = [../../system ../../home ./amd.nix ./hardware-configuration.nix];
 }

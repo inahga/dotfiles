@@ -54,7 +54,7 @@ in {
     settings = {General = {Enable = "Source,Sink,Media,Socket";};};
   };
 
-  time.timeZone = "America/Detroit";
+  time.timeZone = "America/Chicago";
 
   users.users.inahga = {
     isNormalUser = true;
@@ -265,9 +265,13 @@ in {
     unstable.android-studio
     unstable.helix
     unstable.mold
+    unstable.docker-compose
   ];
 
-  environment.pathsToLink = ["/share/zsh"];
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/bash-completion"
+  ];
 
   programs = {
     dconf.enable = true;
@@ -304,8 +308,8 @@ in {
   };
 
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji

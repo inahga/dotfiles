@@ -1,0 +1,11 @@
+[colors.primary]
+background = "#000000"
+foreground = "#ffffff"
+
+[font]
+size = @fontSize@
+
+[window]
+decorations = "none"
+opacity = 1.0
+startup_mode = "Windowed"
