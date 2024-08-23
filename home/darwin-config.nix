@@ -62,7 +62,7 @@
     zsh = {
       enable = true;
       completionInit = "autoload -U compinit && compinit -u";
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
 
       envExtra = ''

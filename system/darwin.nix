@@ -18,7 +18,6 @@ in {
     delve
     dig
     direnv
-    docker
     entr
     fd
     figlet
@@ -35,6 +34,7 @@ in {
     gopls
     gotools
     graphviz
+    gnugrep
     gron
     grpc-tools
     htop
@@ -63,6 +63,7 @@ in {
     podman
     postgresql
     python3
+    python311Packages.python-lsp-server
     rclone
     ripgrep
     rsync
@@ -70,8 +71,6 @@ in {
     shellcheck
     shfmt
     socat
-    terraform
-    terraform-ls
     tmux
     tree
     unzip
@@ -88,6 +87,8 @@ in {
     unstable.kakoune
     unstable.kak-lsp
     unstable.mold
+    unstable.terraform
+    unstable.terraform-ls
   ];
 
   programs = {
@@ -114,12 +115,9 @@ in {
   services.nix-daemon.enable = true;
   nix.package = pkgs.nix;
 
-  fonts = {
-    fontDir.enable = true;
-    fonts = with pkgs; [
-      (nerdfonts.override {fonts = ["Hack"];})
-    ];
-  };
+  fonts.packages = with pkgs; [
+    (nerdfonts.override {fonts = ["Hack"];})
+  ];
 
   homebrew = {
     enable = true;
@@ -129,8 +127,13 @@ in {
     #   - They are missing an aarch64 build in nixpkgs.
     brews = [
       "colima"
+      "docker"
+      "docker-buildx"
+      "docker-compose"
       "docker-credential-helper"
+      "gdb"
       "jdtls"
+      "valgrind"
       "vfkit"
       {
         name = "libiconv";
@@ -147,8 +150,10 @@ in {
       "drawio"
       "firefox"
       "ghidra"
+      "libreoffice"
       "obs"
       "rectangle"
+      "sage"
       "slack"
       "signal"
       "spotify"
