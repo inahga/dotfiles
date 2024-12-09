@@ -5,4 +5,7 @@ formatter = { command = "alejandra", args = ["-q"] }
 
 [language-server.rust-analyzer]
 command = "rust-analyzer"
-config = { cargo = { features = "all" } }
+
+# [language-server.rust-analyzer.config]
+# linkedProjects = [ "Cargo.toml", "fuzz/Cargo.toml" ]
+# cargo = { features = "all" }

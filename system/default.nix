@@ -127,6 +127,7 @@ in {
     brightnessctl
     chromium
     clang-tools
+    cloc
     cmake
     coreutils
     curl
@@ -138,6 +139,7 @@ in {
     discord
     distrobox
     drawio
+    efitools
     entr
     evince
     fd
@@ -145,6 +147,7 @@ in {
     file
     firefox-wayland
     flow
+    fswatch
     fuzzel
     fwts
     fzf
@@ -158,8 +161,6 @@ in {
     glow
     gnumake
     gnupg
-    go
-    gopls
     gotools
     grim
     gron
@@ -220,6 +221,7 @@ in {
     river
     rsync
     rustup
+    sbctl
     shellcheck
     shfmt
     signal-desktop
@@ -263,15 +265,21 @@ in {
     zip
 
     unstable.android-studio
-    unstable.helix
-    unstable.mold
     unstable.docker-compose
+    unstable.go
+    unstable.helix
+    unstable.llvm_19
+    unstable.mold
   ];
 
   environment.pathsToLink = [
     "/share/zsh"
     "/share/bash-completion"
   ];
+
+  environment.sessionVariables = {
+    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+  };
 
   programs = {
     dconf.enable = true;
