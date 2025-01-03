@@ -1,5 +1,6 @@
 theme = "inahga"
 [editor]
+popup-border = "all"
 
 [editor.file-picker]
 hidden = false

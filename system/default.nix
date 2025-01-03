@@ -45,7 +45,8 @@ in {
     nftables.enable = true;
     useDHCP = lib.mkDefault true;
     extraHosts = ''
-      127.0.0.1   leader.api.divviup.local helper.api.divviup.local grafana.monitoring.api.divviup.local alertmanager.monitoring.api.divviup.local prometheus.monitoring.api.divviup.local api.divviup.local app.divviup.local divviup.local
+      127.0.0.1 leader.api.divviup.local helper.api.divviup.local grafana.monitoring.api.divviup.local alertmanager.monitoring.api.divviup.local prometheus.monitoring.api.divviup.local api.divviup.local app.divviup.local divviup.local
+      127.0.0.1 edugain.fedservice.lh surfconext.fedservice.lh garr.fedservice.lh incommon.fedservice.lh haka.fedservice.lh sunet.fedservice.lh erasmus-plus.fedservice.lh surf-rp.fedservice.lh garr-rp.fedservice.lh helsinki.fedservice.lh puhuri.fedservice.lh helsinki-rp.fedservice.lh puhuri-rp.fedservice.lh
     '';
   };
   systemd.services.NetworkManager-wait-online.enable = false;
