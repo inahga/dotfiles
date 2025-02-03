@@ -13,6 +13,7 @@ in {
     bc
     bind
     clang-tools
+    cmake
     coreutils
     curl
     delve
@@ -77,7 +78,6 @@ in {
     vim
     wget
     (with google-cloud-sdk; (withExtraComponents [components.gke-gcloud-auth-plugin]))
-    wireguard-tools
     yarn
     yq
     yubikey-manager
